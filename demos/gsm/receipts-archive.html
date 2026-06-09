@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Архив чеков</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 11: Архив чеков -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+      <div>
+        <p class="text-sm text-slate-500">Кабинет бухгалтера · Май 2026</p>
+        <h1 class="mt-1 text-xl font-semibold text-slate-950">Архив чеков</h1>
+      </div>
+
+      <a
+        href="/accountant/registry/"
+        class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+      >
+        Назад
+      </a>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+    <form
+      method="get"
+      hx-get="/accountant/receipts/"
+      hx-target="#receipts-grid"
+      class="rounded-md border border-slate-200 bg-white p-4"
+    >
+      <div class="grid gap-3 md:grid-cols-5">
+        <label class="block">
+          <span class="mb-1.5 block text-sm font-medium text-slate-700">Период</span>
+          <select name="period" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+            <option>Май 2026</option>
+            <option>Апрель 2026</option>
+            <option>Март 2026</option>
+          </select>
+        </label>
+
+        <label class="block">
+          <span class="mb-1.5 block text-sm font-medium text-slate-700">Водитель</span>
+          <select name="driver" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+            <option>Все водители</option>
+            <option>Сергей Иванов</option>
+            <option>Андрей Петров</option>
+            <option>Михаил Орлов</option>
+          </select>
+        </label>
+
+        <label class="block">
+          <span class="mb-1.5 block text-sm font-medium text-slate-700">Машина</span>
+          <select name="vehicle" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+            <option>Все машины</option>
+            <option>Газель Next А124ВС 39</option>
+            <option>Lada Largus М582КТ 39</option>
+            <option>Ford Transit К771ОР 39</option>
+          </select>
+        </label>
+
+        <label class="block">
+          <span class="mb-1.5 block text-sm font-medium text-slate-700">Статус</span>
+          <select name="status" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+            <option>Все статусы</option>
+            <option>На проверке</option>
+            <option>Требует уточнения</option>
+            <option>Проверено</option>
+            <option>Готово к выгрузке</option>
+          </select>
+        </label>
+
+        <div class="flex items-end">
+          <button
+            type="submit"
+            class="w-full rounded-md bg-slate-950 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Применить
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="mt-5 grid gap-4 sm:grid-cols-4">
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Чеков в архиве</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">11</p>
+      </div>
+
+      <div class="rounded-md border border-emerald-200 bg-emerald-50 p-4">
+        <p class="text-sm text-emerald-800">Связаны с записью</p>
+        <p class="mt-1 text-2xl font-semibold text-emerald-900">10</p>
+      </div>
+
+      <div class="rounded-md border border-amber-200 bg-amber-50 p-4">
+        <p class="text-sm text-amber-800">Требуют проверки</p>
+        <p class="mt-1 text-2xl font-semibold text-amber-900">3</p>
+      </div>
+
+      <div class="rounded-md border border-red-200 bg-red-50 p-4">
+        <p class="text-sm text-red-700">Нет чека</p>
+        <p class="mt-1 text-2xl font-semibold text-red-800">2</p>
+      </div>
+    </div>
+
+    <div id="receipts-grid" class="mt-5 grid gap-5 lg:grid-cols-[1fr_380px]">
+      <div class="grid gap-4 md:grid-cols-2">
+        <article class="rounded-md border border-slate-200 bg-white p-4">
+          <div class="aspect-[4/3] rounded-md border border-slate-200 bg-slate-100 p-4">
+            <div class="flex h-full flex-col justify-between rounded-sm bg-white p-4 text-sm shadow-sm">
+              <div class="text-center">
+                <p class="font-semibold text-slate-950">АЗС ЛУКОЙЛ</p>
+                <p class="mt-1 text-xs text-slate-500">Калининград, Московский пр-т</p>
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-700">
+                <div class="flex justify-between">
+                  <span>ДТ</span>
+                  <span>38,42 л</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Цена</span>
+                  <span>65,00 ₽</span>
+                </div>
+                <div class="flex justify-between font-semibold text-slate-950">
+                  <span>Итого</span>
+                  <span>2 497,30 ₽</span>
+                </div>
+              </div>
+
+              <div class="border-t border-dashed border-slate-300 pt-3 text-center text-xs text-slate-500">
+                24.05.2026 17:40
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="font-medium text-slate-950">receipt_2026-05-24_1740.jpg</p>
+                <p class="mt-1 text-sm text-slate-500">Сергей Иванов · Газель Next А124ВС 39</p>
+              </div>
+              <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
+                на проверке
+              </span>
+            </div>
+
+            <dl class="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <dt class="text-slate-500">Заправка</dt>
+                <dd class="mt-1 font-medium text-slate-950">38,42 л · ДТ</dd>
+              </div>
+              <div>
+                <dt class="text-slate-500">Сумма</dt>
+                <dd class="mt-1 font-medium text-slate-950">2 497,30 ₽</dd>
+              </div>
+            </dl>
+
+            <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+              <a
+                href="/accountant/records/104/"
+                class="inline-flex justify-center rounded-md bg-slate-950 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
+              >
+                Открыть запись
+              </a>
+              <a
+                href="/accountant/receipts/501/"
+                class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Показать крупно
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-md border border-amber-200 bg-amber-50 p-4">
+          <div class="flex aspect-[4/3] items-center justify-center rounded-md border border-dashed border-amber-300 bg-white p-4 text-center">
+            <div>
+              <p class="text-sm font-medium text-amber-900">Фото чека отсутствует</p>
+              <p class="mt-1 text-sm text-amber-800">Запись требует уточнения</p>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="font-medium text-slate-950">Чек не прикреплен</p>
+                <p class="mt-1 text-sm text-slate-700">Андрей Петров · Lada Largus М582КТ 39</p>
+              </div>
+              <span class="rounded-md bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900">
+                требует уточнения
+              </span>
+            </div>
+
+            <dl class="mt-4 grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <dt class="text-slate-600">Заправка</dt>
+                <dd class="mt-1 font-medium text-slate-950">17,23 л · АИ-95</dd>
+              </div>
+              <div>
+                <dt class="text-slate-600">Сумма</dt>
+                <dd class="mt-1 font-medium text-slate-950">1 120,00 ₽</dd>
+              </div>
+            </dl>
+
+            <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+              <a
+                href="/accountant/records/103/"
+                class="inline-flex justify-center rounded-md bg-amber-900 px-3 py-2 text-sm font-medium text-white hover:bg-amber-800"
+              >
+                Открыть запись
+              </a>
+              <button
+                type="button"
+                hx-post="/accountant/records/103/return-to-driver/"
+                hx-target="#receipts-grid"
+                class="inline-flex justify-center rounded-md border border-amber-300 bg-white px-3 py-2 text-sm font-medium text-amber-900 hover:bg-amber-100"
+              >
+                Вернуть водителю
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-md border border-slate-200 bg-white p-4">
+          <div class="aspect-[4/3] rounded-md border border-slate-200 bg-slate-100 p-4">
+            <div class="flex h-full flex-col justify-between rounded-sm bg-white p-4 text-sm shadow-sm">
+              <div class="text-center">
+                <p class="font-semibold text-slate-950">АЗС БАЛТНЕФТЬ</p>
+                <p class="mt-1 text-xs text-slate-500">Гурьевск, Центральная</p>
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-700">
+                <div class="flex justify-between">
+                  <span>АИ-95</span>
+                  <span>21,10 л</span>
+                </div>
+                <div class="flex justify-between font-semibold text-slate-950">
+                  <span>Итого</span>
+                  <span>1 382,05 ₽</span>
+                </div>
+              </div>
+
+              <div class="border-t border-dashed border-slate-300 pt-3 text-center text-xs text-slate-500">
+                22.05.2026 12:16
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="font-medium text-slate-950">receipt_2026-05-22_1216.jpg</p>
+                <p class="mt-1 text-sm text-slate-500">Михаил Орлов · Ford Transit К771ОР 39</p>
+              </div>
+              <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                проверено
+              </span>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+              <a
+                href="/accountant/records/102/"
+                class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Открыть запись
+              </a>
+              <a
+                href="/accountant/receipts/500/download/"
+                class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
+                Скачать чек
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <aside class="space-y-5">
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Выбранный чек</h2>
+          <p class="mt-1 text-sm text-slate-500">receipt_2026-05-24_1740.jpg</p>
+
+          <dl class="mt-4 space-y-3 text-sm">
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Дата</dt>
+              <dd class="font-medium text-slate-950">24.05.2026, 17:40</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Водитель</dt>
+              <dd class="font-medium text-slate-950">Сергей Иванов</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Машина</dt>
+              <dd class="font-medium text-slate-950">А124ВС 39</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Топливо</dt>
+              <dd class="font-medium text-slate-950">ДТ · 38,42 л</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Сумма</dt>
+              <dd class="font-medium text-slate-950">2 497,30 ₽</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Статус записи</dt>
+              <dd class="font-medium text-slate-950">на проверке</dd>
+            </div>
+          </dl>
+
+          <div class="mt-5 flex flex-col gap-2">
+            <a
+              href="/accountant/records/104/"
+              class="inline-flex justify-center rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+            >
+              Открыть связанную запись
+            </a>
+            <a
+              href="/accountant/receipts/501/download/"
+              class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Скачать чек
+            </a>
+          </div>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Проверка архива</h2>
+
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li>Чек связан с заправкой</li>
+            <li>Заправка связана с поездкой</li>
+            <li>Машина и водитель определены</li>
+            <li>Файл хранится локально</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

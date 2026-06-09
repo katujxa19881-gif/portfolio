@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Карточка проверки записи</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 10: Карточка проверки записи -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+      <div>
+        <p class="text-sm text-slate-500">Реестр поездок и заправок · запись 104</p>
+        <h1 class="mt-1 text-xl font-semibold text-slate-950">Карточка проверки записи</h1>
+      </div>
+
+      <a
+        href="/accountant/registry/"
+        class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+      >
+        Назад в реестр
+      </a>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+    <div class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <h2 class="text-2xl font-semibold text-slate-950">
+              24 мая 2026 · Сергей Иванов
+            </h2>
+            <span class="rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+              на проверке
+            </span>
+          </div>
+
+          <p class="mt-2 text-sm leading-6 text-slate-600">
+            Газель Next, А124ВС 39 · подразделение Склад · период Май 2026
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-2 sm:flex-row">
+          <button
+            type="button"
+            hx-post="/accountant/records/104/mark-checked/"
+            hx-target="#review-result"
+            class="rounded-md bg-emerald-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-800"
+          >
+            Проверено
+          </button>
+
+          <button
+            type="button"
+            hx-post="/accountant/records/104/ready-for-export/"
+            hx-target="#review-result"
+            class="rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Готово к выгрузке
+          </button>
+
+          <button
+            type="button"
+            hx-post="/accountant/records/104/return-to-driver/"
+            hx-target="#review-result"
+            class="rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm font-medium text-amber-900 hover:bg-amber-100"
+          >
+            Вернуть водителю
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="review-result" class="mt-4 hidden rounded-md border border-slate-200 bg-white px-3 py-2 text-sm text-slate-600">
+      Статус записи обновлён.
+    </div>
+
+    <div class="mt-5 grid gap-5 lg:grid-cols-[1fr_360px]">
+      <div class="space-y-5">
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Поездка</h2>
+
+          <dl class="mt-4 grid gap-4 sm:grid-cols-2">
+            <div>
+              <dt class="text-sm text-slate-500">Маршрут</dt>
+              <dd class="mt-1 text-sm font-medium leading-6 text-slate-950">
+                Склад Калининград -> магазин на ул. Горького -> склад
+              </dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Цель</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">
+                Доставка продукции в розничную точку
+              </dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Одометр</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">
+                84 210 -> 84 246 км
+              </dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Рассчитанный пробег</dt>
+              <dd class="mt-1 text-sm font-medium text-emerald-700">
+                36 км
+              </dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Отправлено водителем</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">
+                24.05.2026, 17:52
+              </dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Предыдущий одометр по машине</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">
+                84 190 км
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h2 class="text-base font-semibold text-slate-950">Заправка</h2>
+            <span class="rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700">
+              чек прикреплен
+            </span>
+          </div>
+
+          <dl class="mt-4 grid gap-4 sm:grid-cols-3">
+            <div>
+              <dt class="text-sm text-slate-500">Тип топлива</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">ДТ</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Литры</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">38,42 л</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Сумма</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">2 497,30 ₽</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Цена за литр</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">65,00 ₽/л</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Дата заправки</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">24.05.2026, 17:40</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Связь с поездкой</dt>
+              <dd class="mt-1 text-sm font-medium text-emerald-700">связана</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Операция топливной карты</h2>
+
+          <div class="mt-4 rounded-md border border-emerald-200 bg-emerald-50 p-4">
+            <p class="text-sm font-medium text-emerald-900">Сопоставлена автоматически</p>
+            <p class="mt-1 text-sm leading-6 text-emerald-800">
+              Совпали период, госномер, дата, литры и сумма в допустимом отклонении.
+            </p>
+          </div>
+
+          <dl class="mt-4 grid gap-4 sm:grid-cols-3">
+            <div>
+              <dt class="text-sm text-slate-500">Дата операции</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">24.05.2026, 17:42</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">АЗС</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">Лукойл, Московский пр-т</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Карта</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">**** 2841</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Литры по карте</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">38,40 л</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Сумма по карте</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">2 496,00 ₽</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Отклонение</dt>
+              <dd class="mt-1 text-sm font-medium text-emerald-700">1,30 ₽</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Решение бухгалтера</h2>
+
+          <label class="mt-4 block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Комментарий для водителя или истории проверки</span>
+            <textarea
+              name="accountant_comment"
+              rows="4"
+              placeholder="Например: чек читается, литры и сумма сходятся с операцией топливной карты"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            ></textarea>
+          </label>
+
+          <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
+              hx-post="/accountant/records/104/mark-checked/"
+              hx-target="#review-result"
+              class="rounded-md bg-emerald-700 px-4 py-2.5 text-sm font-medium text-white hover:bg-emerald-800"
+            >
+              Проверено
+            </button>
+            <button
+              type="button"
+              hx-post="/accountant/records/104/ready-for-export/"
+              hx-target="#review-result"
+              class="rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+            >
+              Готово к выгрузке
+            </button>
+            <button
+              type="button"
+              hx-post="/accountant/records/104/return-to-driver/"
+              hx-target="#review-result"
+              class="rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm font-medium text-amber-900 hover:bg-amber-100"
+            >
+              Вернуть водителю
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="space-y-5">
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-base font-semibold text-slate-950">Фото чека</h2>
+            <a href="/accountant/receipts/501/" class="text-sm font-medium text-slate-700 hover:underline">
+              Открыть чек
+            </a>
+          </div>
+
+          <div class="mt-4 aspect-[3/4] rounded-md border border-slate-200 bg-slate-100 p-4">
+            <div class="flex h-full flex-col justify-between rounded-sm bg-white p-4 text-sm shadow-sm">
+              <div class="text-center">
+                <p class="font-semibold text-slate-950">АЗС ЛУКОЙЛ</p>
+                <p class="mt-1 text-xs text-slate-500">Калининград, Московский пр-т</p>
+              </div>
+
+              <div class="space-y-2 text-xs text-slate-700">
+                <div class="flex justify-between">
+                  <span>ДТ</span>
+                  <span>38,42 л</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Цена</span>
+                  <span>65,00 ₽</span>
+                </div>
+                <div class="flex justify-between font-semibold text-slate-950">
+                  <span>Итого</span>
+                  <span>2 497,30 ₽</span>
+                </div>
+              </div>
+
+              <div class="border-t border-dashed border-slate-300 pt-3 text-center text-xs text-slate-500">
+                24.05.2026 17:40 · ФН 9284000100
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Ошибки валидации</h2>
+
+          <div class="mt-4 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-3">
+            <p class="text-sm font-medium text-emerald-900">Блокирующих ошибок нет</p>
+            <p class="mt-1 text-sm leading-5 text-emerald-800">
+              Можно перевести запись в статус `проверено` или `готово к выгрузке`.
+            </p>
+          </div>
+
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li>Маршрут заполнен</li>
+            <li>Одометр корректен</li>
+            <li>Чек прикреплен</li>
+            <li>Сумма и литры заполнены</li>
+            <li>Подразделение указано</li>
+          </ul>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">История</h2>
+
+          <div class="mt-4 space-y-3 text-sm">
+            <div>
+              <p class="font-medium text-slate-950">Водитель отправил запись</p>
+              <p class="mt-1 text-slate-500">24.05.2026, 17:52</p>
+            </div>
+            <div>
+              <p class="font-medium text-slate-950">Операция карты сопоставлена</p>
+              <p class="mt-1 text-slate-500">24.05.2026, 18:05</p>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

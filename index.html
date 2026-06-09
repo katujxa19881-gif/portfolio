@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мои работы · Вайбкодинг</title>
+<style>
+  :root{
+    --bg:#0b1120; --panel:#0f172a; --card:#ffffff; --ink:#0f172a; --mut:#64748b;
+    --line:#e2e8f0; --accent:#6366f1; --accent2:#0ea5e9;
+    --ok:#10b981; --warn:#f59e0b;
+    --shadow:0 10px 40px -12px rgba(2,6,23,.25);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:#f1f5f9; line-height:1.5;
+  }
+  a{color:inherit}
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:radial-gradient(1200px 500px at 20% -10%, #312e81 0%, transparent 60%),
+               radial-gradient(1000px 500px at 90% 0%, #0c4a6e 0%, transparent 55%),
+               #0b1120;
+    color:#e2e8f0; padding:54px 24px 46px; text-align:center;
+  }
+  .hero .eyebrow{letter-spacing:.18em; text-transform:uppercase; font-size:12px; color:#a5b4fc; font-weight:600}
+  .hero h1{font-size:40px; margin:12px 0 8px; font-weight:800; letter-spacing:-.02em}
+  .hero p{color:#94a3b8; max-width:640px; margin:0 auto; font-size:16px}
+  .hero .stats{display:flex; gap:34px; justify-content:center; margin-top:26px; flex-wrap:wrap}
+  .hero .stats div{text-align:center}
+  .hero .stats b{display:block; font-size:26px; color:#fff; font-weight:800}
+  .hero .stats span{font-size:12px; color:#94a3b8; text-transform:uppercase; letter-spacing:.08em}
+  /* ---------- GRID ---------- */
+  main{max-width:1180px; margin:0 auto; padding:38px 22px 70px}
+  .sec-title{font-size:13px; font-weight:700; color:var(--mut); text-transform:uppercase; letter-spacing:.12em; margin:0 0 18px}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:20px}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+    cursor:pointer; transition:.18s; display:flex; flex-direction:column; box-shadow:0 1px 2px rgba(2,6,23,.04);
+  }
+  .card:hover{transform:translateY(-4px); box-shadow:var(--shadow); border-color:#c7d2fe}
+  .card .cover{height:96px; position:relative; display:flex; align-items:center; padding:0 20px;
+    font-size:42px; color:#fff}
+  .card .num{position:absolute; top:12px; right:16px; font-size:13px; font-weight:800; color:rgba(255,255,255,.85)}
+  .card .body{padding:16px 20px 20px; flex:1; display:flex; flex-direction:column}
+  .card h3{margin:0 0 6px; font-size:17px; font-weight:700; letter-spacing:-.01em}
+  .card .desc{font-size:13.5px; color:var(--mut); flex:1}
+  .card .meta{display:flex; align-items:center; justify-content:space-between; margin-top:14px}
+  .badge{font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px}
+  .b-app{background:#eef2ff;color:#4338ca}
+  .b-bot{background:#ecfeff;color:#0e7490}
+  .b-int{background:#fef3c7;color:#b45309}
+  .b-site{background:#dcfce7;color:#15803d}
+  .b-infra{background:#f1f5f9;color:#475569}
+  .open{font-size:13px; font-weight:700; color:var(--accent)}
+  .live{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--ok)}
+  .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(16,185,129,.18)}
+  /* ---------- DETAIL ---------- */
+  #detail{display:none; position:fixed; inset:0; background:#f1f5f9; z-index:50; overflow-y:auto}
+  #detail.show{display:block}
+  .dbar{position:sticky; top:0; z-index:5; background:rgba(255,255,255,.86); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line); padding:12px 22px; display:flex; align-items:center; gap:16px}
+  .back{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--accent);
+    background:#eef2ff;border:none;border-radius:10px;padding:9px 14px;cursor:pointer;transition:.15s}
+  .back:hover{background:#e0e7ff}
+  .dbar .dtitle{font-weight:700;font-size:15px}
+  .dbar .nav{margin-left:auto;display:flex;gap:8px}
+  .navbtn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 12px;cursor:pointer;font-size:13px;font-weight:600;color:var(--mut);transition:.15s}
+  .navbtn:hover{border-color:#c7d2fe;color:var(--accent)}
+  .dwrap{max-width:1180px;margin:0 auto;padding:26px 22px 60px}
+  .dhead{display:flex;gap:18px;align-items:flex-start;margin-bottom:22px}
+  .dicon{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff;flex:none}
+  .dhead h2{margin:2px 0 6px;font-size:26px;font-weight:800;letter-spacing:-.02em}
+  .stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .chip{font-size:11.5px;font-weight:600;background:#fff;border:1px solid var(--line);color:#475569;padding:4px 9px;border-radius:7px}
+  .pdr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+  @media(max-width:820px){.pdr{grid-template-columns:1fr}}
+  .pbox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .pbox h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+  .pbox.p1 h4{color:#dc2626}.pbox.p2 h4{color:var(--accent)}.pbox.p3 h4{color:var(--ok)}
+  .pbox p,.pbox li{font-size:13.5px;color:#334155;margin:0}
+  .pbox ul{margin:0;padding-left:18px}
+  .pbox li{margin:4px 0}
+  .demohdr{display:flex;align-items:center;justify-content:space-between;margin:8px 0 12px;flex-wrap:wrap;gap:10px}
+  .demohdr h3{margin:0;font-size:16px;font-weight:800}
+  .demohdr .hint{font-size:12.5px;color:var(--mut)}
+  .openbtn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:none;
+    border-radius:10px;padding:10px 16px;font-weight:700;font-size:13.5px;cursor:pointer;text-decoration:none;transition:.15s}
+  .openbtn:hover{background:#4f46e5}
+  .openbtn.alt{background:#fff;color:var(--accent);border:1px solid #c7d2fe}
+  .frame{width:100%;height:74vh;min-height:520px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow)}
+  video.frame{height:auto;max-height:78vh;background:#000}
+  .nodemo{background:#fff;border:1px dashed #cbd5e1;border-radius:16px;padding:34px;text-align:center;color:var(--mut)}
+  .nodemo .big{font-size:40px;margin-bottom:10px}
+  .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
+  .shots img{width:100%;border:1px solid var(--line);border-radius:12px;cursor:zoom-in;transition:.15s}
+  .shots img:hover{border-color:#c7d2fe;transform:scale(1.01)}
+  footer{text-align:center;color:#94a3b8;font-size:12.5px;padding:22px}
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(2,6,23,.88);z-index:80;align-items:center;justify-content:center;padding:30px;cursor:zoom-out}
+  .lightbox.show{display:flex}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  /* ---------- TITLE COVER ---------- */
+  #cover{position:fixed; inset:0; z-index:60; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; text-align:center; padding:30px;
+    background:radial-gradient(1100px 600px at 25% 10%, #312e81 0%, transparent 60%),
+               radial-gradient(1000px 600px at 85% 15%, #0c4a6e 0%, transparent 55%),
+               #0b1120;
+    color:#e2e8f0; transition:opacity .5s ease, visibility .5s ease}
+  #cover.hide{opacity:0; visibility:hidden}
+  #cover .ce{letter-spacing:.22em; text-transform:uppercase; font-size:13px; color:#a5b4fc; font-weight:600}
+  #cover h1{font-size:clamp(38px,7vw,76px); font-weight:800; letter-spacing:-.03em; margin:18px 0 6px;
+    background:linear-gradient(90deg,#fff,#c7d2fe); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+  #cover .role{font-size:clamp(16px,2.4vw,22px); color:#cbd5e1; font-weight:500; margin-bottom:4px}
+  #cover .sub{color:#94a3b8; font-size:15px; max-width:520px; margin:10px auto 0}
+  #cover .date{color:#64748b; font-size:13px; letter-spacing:.08em; margin-top:6px}
+  #cover .enter{margin-top:38px; display:inline-flex; align-items:center; gap:9px;
+    background:#6366f1; color:#fff; border:none; border-radius:12px; padding:15px 30px;
+    font-size:16px; font-weight:700; cursor:pointer; transition:.18s; box-shadow:0 14px 40px -10px rgba(99,102,241,.7)}
+  #cover .enter:hover{background:#4f46e5; transform:translateY(-2px)}
+  #cover .line{width:54px; height:3px; border-radius:2px; background:linear-gradient(90deg,#6366f1,#0ea5e9); margin:26px 0 0}
+  .titlebtn{position:fixed; top:14px; left:14px; z-index:40; background:rgba(255,255,255,.12); color:#e2e8f0;
+    border:1px solid rgba(255,255,255,.18); border-radius:9px; padding:7px 12px; font-size:12px; font-weight:600;
+    cursor:pointer; backdrop-filter:blur(6px); display:none}
+  .titlebtn:hover{background:rgba(255,255,255,.2)}
+</style>
+</head>
+<body>
+
+<section id="cover">
+  <div class="ce">Портфолио · Обучение вайбкодингу</div>
+  <h1>Шуляк Екатерина</h1>
+  <div class="role">Выпускная презентация работ</div>
+  <p class="sub">13 проектов, созданных за время обучения: веб-приложения, Telegram-боты, интеграции и сайты.</p>
+  <div class="date">Июнь 2026</div>
+  <button class="enter" onclick="enterPortfolio()">Смотреть работы →</button>
+  <div class="line"></div>
+</section>
+
+<button class="titlebtn" id="titlebtn" onclick="showCover()">↑ К титульному</button>
+
+<header class="hero">
+  <div class="eyebrow">Портфолио · Обучение вайбкодингу</div>
+  <h1>Мои работы</h1>
+  <p>Интерактивная витрина проектов, созданных за время обучения. Нажмите на любую карточку — откроется живое демо и краткий разбор: проблема, что сделано, результат.</p>
+  <div class="stats">
+    <div><b>13</b><span>проектов</span></div>
+    <div><b>7</b><span>веб-приложений</span></div>
+    <div><b>3</b><span>Telegram-бота</span></div>
+    <div><b>35+</b><span>экранов прототипов</span></div>
+  </div>
+</header>
+
+<main>
+  <p class="sec-title">Все работы · кликните для демо</p>
+  <div class="grid" id="grid"></div>
+</main>
+
+<section id="detail">
+  <div class="dbar">
+    <button class="back" onclick="closeDetail()">← Назад к работам</button>
+    <span class="dtitle" id="dtitle"></span>
+    <div class="nav">
+      <button class="navbtn" onclick="step(-1)">‹ Пред.</button>
+      <button class="navbtn" onclick="step(1)">След. ›</button>
+    </div>
+  </div>
+  <div class="dwrap" id="dwrap"></div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('show')"><img id="lbimg" src="" alt=""></div>
+
+<footer>Презентация собрана из рабочих файлов · открывается двойным кликом, без интернета (кроме веб-шрифтов в прототипах)</footer>
+
+<script>
+const W = [
+  {
+    icon:"⛽", grad:"linear-gradient(135deg,#6366f1,#0ea5e9)", type:"app", typeLabel:"Веб-приложение",
+    title:"Веб-сервис учёта ГСМ", short:"Учёт поездок, топлива и чеков с закрытием месяца. Сквозной кейс — от идеи до рабочего приложения.",
+    stack:["Django","Python","HTMLX","Tailwind","Docker","роли"],
+    problem:"При закрытии месяца или запросе ФНС данные по маршрутам, пробегу и топливу собираются из бумажек, звонков и Excel. Бухгалтер восстанавливает маршруты задним числом — это часы работы и риск доначисления налога.",
+    done:["Вход по ролям: водитель, бухгалтер, ПЭО, директор, техадмин","Форма водителя: сдача поездки и фото чека с телефона","Реестр поездок и заправок, проверка ошибок","Закрытие месяца и корректировки закрытого периода","CSV-выгрузка для ПЭО и сводка расходов для директора"],
+    result:"Единый процесс сбора первички вовремя. Меньше потерянных чеков, прозрачный статус закрытия месяца, готовая CSV и понятная управленческая сводка.",
+    demo:{type:"iframe", src:"demos/gsm/index.html", hint:"22 кликабельных экрана — выберите роль и пройдите сценарий"},
+    shotsDir:"demos/gsm/screens",
+    shots:["01-login.png","03-role-home.png","04-driver-trip-form.png","08-accountant-dashboard.png","09-accountant-registry.png"]
+  },
+  {
+    icon:"📊", grad:"linear-gradient(135deg,#4338ca,#7c3aed)", type:"app", typeLabel:"Веб-приложение",
+    title:"CRM коммерческого отдела", short:"Собственная CRM-система (аналог Битрикс24) для АО «НПО «ЦТС» — заказчики, сделки-воронка, задачи, отчёты.",
+    stack:["Django","Python","Tailwind","Docker","Caddy","права доступа"],
+    problem:"Вся работа с заказчиками (звонки, КП, договоры) живёт разрозненно — в головах менеджеров, почте и Excel. Теряется контроль сроков, нет аналитики, руководство работает «вслепую».",
+    done:["Заказчики и карточки клиентов с историей событий","Сделки в виде воронки (kanban) + карточка сделки","Задачи менеджеров","Отчёты и аналитика для руководства","Справочники, управление сотрудниками и правами доступа"],
+    result:"Единое информационное пространство с правами доступа. Менеджеры быстро вносят данные, руководство видит прозрачную аналитику. Коммерческая тайна под контролем.",
+    demo:{type:"iframe", src:"demos/crm/index.html", hint:"13 кликабельных экранов CRM"}
+  },
+  {
+    icon:"🥐", grad:"linear-gradient(135deg,#d97706,#f59e0b)", type:"app", typeLabel:"Веб-приложение · Lovable",
+    title:"Фин-модель пекарни", short:"Интерактивная финансовая модель пекарни: считает экономику проекта онлайн, без громоздких таблиц Excel.",
+    stack:["Lovable","React","финмодель"],
+    problem:"Экономику пекарни (выручка, себестоимость, точка безубыточности, прибыль) обычно считают в сложных Excel-таблицах — это долго, негибко и легко ошибиться.",
+    done:["Интерактивная финмодель пекарни в браузере","Ввод параметров и моментальный пересчёт показателей","Наглядное представление результатов","Опубликована онлайн по ссылке"],
+    result:"Быстрый расчёт экономики пекарни прямо в браузере — можно играть с параметрами и сразу видеть финрезультат.",
+    demo:{type:"iframe", src:"https://excel-ace-pal.lovable.app", hint:"Живое приложение — вводите данные прямо здесь"}
+  },
+  {
+    icon:"📈", grad:"linear-gradient(135deg,#1d4ed8,#0ea5e9)", type:"app", typeLabel:"Google Apps Script",
+    title:"Финансовый дашборд на Apps Script", short:"Веб-дашборд поверх Google Sheets на Google Apps Script — финансовая сводка по ссылке, без отдельного хостинга.",
+    stack:["Google Apps Script","Google Sheets","HTML Service"],
+    problem:"Финансовые данные лежат в Google-таблицах, но нет наглядной сводки — тяжело быстро увидеть картину по показателям.",
+    done:["Веб-приложение на Google Apps Script поверх Google Sheets","Дашборд с визуализацией финансовых показателей","Публикация как веб-приложение, доступ по ссылке","Данные берутся прямо из таблиц Google"],
+    result:"Живой финансовый дашборд, работающий прямо из экосистемы Google — без сервера и отдельной инфраструктуры.",
+    demo:{type:"iframe", src:"https://script.google.com/macros/s/AKfycbwwFHamqnAg6b41vl0z05O7piyyL20Un7ZVfzABlPz2-FCGbT6Ng4Jjzg2ikzm6cMsW/exec?page=dashboard", hint:"Живой дашборд на Google Apps Script — работает прямо здесь"}
+  },
+  {
+    icon:"💰", grad:"linear-gradient(135deg,#7c3aed,#6366f1)", type:"app", typeLabel:"Финансовое приложение",
+    title:"Финдашик", short:"Приложение для наглядного учёта и контроля финансов — личный финансовый дашборд.",
+    stack:["веб-приложение","финансы","дашборд"],
+    problem:"Финансы удобно держать в одном понятном месте, где сразу видно состояние дел, а не в разрозненных таблицах.",
+    done:["Приложение для учёта и отображения финансов","Наглядный дашборд с ключевыми показателями","Рабочий прототип, показан в записи"],
+    result:"Понятный личный финансовый дашборд — контроль состояния финансов в одном приложении.",
+    demo:{type:"video", src:"media/findashik.mp4", hint:"Видео-обзор приложения"}
+  },
+  {
+    icon:"🧮", grad:"linear-gradient(135deg,#0d9488,#14b8a6)", type:"app", typeLabel:"Веб-калькулятор",
+    title:"Калькулятор экономики проекта", short:"Онлайн-калькулятор экономики проекта: вводишь параметры — получаешь расчёт. Опубликован на GitHub Pages.",
+    stack:["HTML","JavaScript","GitHub Pages"],
+    problem:"Считать экономику и цену проекта вручную долго и легко ошибиться, особенно когда параметров много.",
+    done:["Веб-калькулятор экономики проекта","Ввод параметров и автоматический расчёт","Опубликован на GitHub Pages — доступен по ссылке","Работает с любого устройства в браузере"],
+    result:"Быстрый расчёт экономики проекта в браузере — без Excel и формул, доступен всем по ссылке.",
+    demo:{type:"iframe", src:"https://katujxa19881-gif.github.io/calculator/", hint:"Живой калькулятор — считайте прямо здесь"}
+  },
+  {
+    icon:"🗓️", grad:"linear-gradient(135deg,#e11d48,#f59e0b)", type:"app", typeLabel:"Веб-приложение",
+    title:"Планер для Артёма", short:"Персональный планер задач: календарь по дням, список дел, прогресс выполнения и поощрение за выполненное.",
+    stack:["HTML","JavaScript","GitHub Pages"],
+    problem:"Нужен простой и приятный личный планер, чтобы держать задачи по дням, видеть прогресс и не терять мотивацию.",
+    done:["Календарь по дням и список задач","Добавление задач и отметка выполнения","Шкала прогресса выполнения","Поощрение-празднование при выполнении 🎉","Опубликован на GitHub Pages"],
+    result:"Готовый персональный планер, доступный по ссылке с любого устройства — с наглядным прогрессом и мотивацией.",
+    demo:{type:"iframe", src:"https://katujxa19881-gif.github.io/planer-artema/", hint:"Живой планер — попробуйте прямо здесь"}
+  },
+  {
+    icon:"🤖", grad:"linear-gradient(135deg,#0e7490,#0ea5e9)", type:"bot", typeLabel:"Telegram-бот · AI",
+    title:"ИИ-продавец на n8n", short:"Telegram-бот-продавец услуг автоматизации учёта: отвечает на вопросы, ведёт к сделке, понимает текст и голос.",
+    stack:["n8n","OpenAI","Supabase Vector (RAG)","Postgres Memory","Telegram"],
+    problem:"Эксперту нужно быстро отвечать потенциальным клиентам по услугам и тарифам и доводить их до целевого действия, не тратя личное время на однотипные вопросы.",
+    done:["AI-агент с базой знаний через RAG (Supabase Vector Store)","Приём текста и расшифровка голосовых сообщений","Память диалога (Postgres Chat Memory)","Перевод на менеджера при необходимости","Лендинг эксперта-финансиста к проекту"],
+    result:"Рабочий тестовый контур: бот @sale_ai_ai_bot отвечает по базе знаний, ведёт клиента и разгружает эксперта от рутинных вопросов.",
+    demo:{type:"video", src:"media/ai-seller.mov", hint:"Видео-демо работы бота",
+          alt:{label:"Открыть лендинг", src:"demos/ai-seller-site/index.html"}}
+  },
+  {
+    icon:"😄", grad:"linear-gradient(135deg,#f59e0b,#ef4444)", type:"bot", typeLabel:"Telegram-бот · AI",
+    title:"Бот «Финансист-приколист»", short:"Telegram-бот, который отвечает на финансовые вопросы коротко, с юмором и памятью контекста.",
+    stack:["n8n","OpenRouter","Simple Memory","Telegram"],
+    problem:"Хотелось лёгкий и быстрый помощник по финансам, который отвечает живо и с юмором, а не сухими формулировками, и помнит контекст беседы.",
+    done:["Workflow в n8n: Telegram → AI Agent → ответ","Подключение модели через OpenRouter","Память контекста (Context Window = 5) по chat.id","Готовый импортируемый файл workflow + чек-лист запуска"],
+    result:"Готовый к импорту бот с документацией: паспорт проекта, чек-лист деплоя и рекомендации по доработке (ограничение длины ответа, fallback при ошибке).",
+    demo:{type:"none", note:"Бот собран в n8n (no-code). Логика — в workflow-файле; здесь показаны архитектура и описание.",
+          facts:["Триггер: Telegram-сообщение","Узлы: AI Agent + OpenRouter + Simple Memory","Стиль: 2–4 предложения, с юмором","Один активный webhook на бота"]}
+  },
+  {
+    icon:"🔗", grad:"linear-gradient(135deg,#b45309,#f59e0b)", type:"int", typeLabel:"Интеграция · n8n",
+    title:"Интеграция amoCRM → Финтабло", short:"Когда сделка в нужной воронке amoCRM закрыта успешно — данные автоматически уходят в Финтабло.",
+    stack:["n8n","amoCRM API","Финтабло API","OAuth2","Webhook"],
+    problem:"Закрытые сделки нужно вручную переносить из amoCRM в финансовый учёт Финтабло — это рутина и источник ошибок и потерянных данных.",
+    done:["OAuth2-доступ к amoCRM и API-доступ к Финтабло","Подписка на webhook amoCRM при смене статуса сделки","Фильтр «нужная воронка + успешный статус»","Сбор полной сделки и контакта, передача в Финтабло","Передаются: дата, суть, автор, ссылка, телефон, email"],
+    result:"Сделки попадают в Финтабло автоматически в момент закрытия. Все 7 этапов внедрения пройдены и проверены (smoke-тест).",
+    demo:{type:"video", src:"media/amo-fintablo.mov", hint:"Видео-разбор интеграции"}
+  },
+  {
+    icon:"🌐", grad:"linear-gradient(135deg,#15803d,#10b981)", type:"site", typeLabel:"Сайт · лендинг",
+    title:"Сайт-визитка эксперта", short:"Лендинг эксперта-финансиста — независимый код, публикуется на Beget / Tilda / GitHub Pages.",
+    stack:["HTML","CSS","адаптив","самодостаточный код"],
+    problem:"Эксперту нужна простая презентационная страница-визитка, которую легко разместить на любом хостинге без сложной инфраструктуры.",
+    done:["Полностью самодостаточный HTML/CSS (без зависимостей)","Адаптивная вёрстка под мобильные","Hero-блок, услуги, призыв к действию","Готов к публикации на Beget и других платформах"],
+    result:"Готовый лендинг, который можно опубликовать в один шаг. Код переносимый — работает как отдельная страница или блок в Tilda.",
+    demo:{type:"iframe", src:"demos/site-finance/index.html", hint:"Живой сайт — листайте внутри окна"}
+  },
+  {
+    icon:"📅", grad:"linear-gradient(135deg,#0f766e,#14b8a6)", type:"app", typeLabel:"Telegram Mini App",
+    title:"Согласование встреч", short:"Telegram-бот и Mini App для согласования встреч с интеграцией Google Calendar.",
+    stack:["TypeScript","Node.js","grammY","Fastify","Prisma","SQLite","Google Calendar API"],
+    problem:"Согласование встреч идёт хаотично в переписке. Нужен единый процесс: заявка → подтверждение → событие в календаре, без двойного ввода и потерь.",
+    done:["Telegram-бот (grammY) + Mini App на общем backend","Мастер создания заявки, просмотр и отмена/перенос","Роли User и Admin (по telegram_id владельца)","Интеграция Google Calendar (OAuth 2.0), уведомления","Общий доменный слой, миграции через Prisma, JSON-логи"],
+    result:"MVP с продуманной архитектурой: mini app расширяет рабочего production-бота без дублирования логики и поломки текущих сценариев. Поэтапная разработка в ветке dev.",
+    demo:{type:"video", src:"media/soglasovanie.mp4", hint:"Видео-обзор Telegram Mini App"}
+  },
+  {
+    icon:"🖥️", grad:"linear-gradient(135deg,#475569,#0f172a)", type:"infra", typeLabel:"Инфраструктура",
+    title:"Свой прод-сервер (n8n + Supabase)", short:"Развёртывание собственного сервера: self-hosted n8n и Supabase на Ubuntu с доменами и SSL.",
+    stack:["Ubuntu 24.04","Docker","n8n","Supabase","SSH-ключи","HTTPS"],
+    problem:"Чтобы запускать боты и интеграции в продакшене, нужна своя инфраструктура — не зависеть от чужих лимитов и держать данные у себя.",
+    done:["Сервер Ubuntu 24.04 с настроенным swap","Self-hosted n8n на собственном домене (HTTPS)","Supabase (API/Kong) на поддомене","Безопасность: вход только по SSH-ключу, root-login отключён","Паспорт проекта со всеми параметрами доступа"],
+    result:"Рабочий прод-контур: n8n и Supabase на своих доменах под HTTPS. На этой базе работают боты и интеграции из других проектов.",
+    demo:{type:"none", note:"Инфраструктурный проект — «демо» это сам сервер. Секреты доступа намеренно не показаны.",
+          facts:["OS: Ubuntu 24.04 LTS","n8n: self-hosted, HTTPS","Supabase: API + Postgres","Доступ: только SSH-ключ","Docker-окружение"]}
+  }
+];
+
+const badgeClass={app:"b-app",bot:"b-bot",int:"b-int",site:"b-site",infra:"b-infra"};
+let cur=0;
+
+function el(html){const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstChild;}
+
+function renderGrid(){
+  const g=document.getElementById('grid');
+  W.forEach((w,i)=>{
+    const live = w.demo.type==='iframe' ? '<span class="live">живое демо</span>'
+               : w.demo.type==='video' ? '<span class="live" style="color:#f59e0b"><span style="background:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.18)"></span>видео</span>'.replace('<span class="live"','<span class="live"').replace('::before','') : '';
+    const liveTxt = w.demo.type==='iframe' ? '🟢 живое демо' : w.demo.type==='video' ? '🎬 видео' : '📄 описание';
+    const card=el(`<div class="card">
+      <div class="cover" style="background:${w.grad}">${w.icon}<span class="num">${String(i+1).padStart(2,'0')}</span></div>
+      <div class="body">
+        <h3>${w.title}</h3>
+        <div class="desc">${w.short}</div>
+        <div class="meta">
+          <span class="badge ${badgeClass[w.type]}">${w.typeLabel}</span>
+          <span class="open">${liveTxt} →</span>
+        </div>
+      </div>
+    </div>`);
+    card.onclick=()=>openDetail(i);
+    g.appendChild(card);
+  });
+}
+
+function openDetail(i){
+  cur=i; const w=W[i];
+  document.getElementById('dtitle').textContent=`${String(i+1).padStart(2,'0')} · ${w.title}`;
+  let demoHTML='';
+  const enc=p=>encodeURI(p);
+  if(w.demo.type==='iframe'){
+    demoHTML=`<div class="demohdr"><div><h3>Живое демо</h3><div class="hint">${w.demo.hint||''}</div></div>
+        <a class="openbtn" href="${enc(w.demo.src)}" target="_blank">↗ Открыть в новой вкладке</a></div>
+      <iframe class="frame" src="${enc(w.demo.src)}"></iframe>`;
+  } else if(w.demo.type==='video'){
+    const altBtn = w.demo.alt ? `<a class="openbtn alt" href="${enc(w.demo.alt.src)}" target="_blank">↗ ${w.demo.alt.label}</a>` : '';
+    demoHTML=`<div class="demohdr"><div><h3>Видео-демо</h3><div class="hint">${w.demo.hint||''}</div></div>
+        <div style="display:flex;gap:8px">${altBtn}<a class="openbtn" href="${enc(w.demo.src)}" target="_blank">↗ Открыть видео</a></div></div>
+      <video class="frame" controls preload="metadata" src="${enc(w.demo.src)}">Ваш браузер не воспроизводит это видео — нажмите «Открыть видео».</video>`;
+  } else {
+    const facts=(w.demo.facts||[]).map(f=>`<li>${f}</li>`).join('');
+    demoHTML=`<div class="nodemo"><div class="big">${w.icon}</div>
+      <p style="max-width:560px;margin:0 auto 14px">${w.demo.note||''}</p>
+      ${facts?`<ul style="display:inline-block;text-align:left;color:#334155;font-size:14px;line-height:1.9">${facts}</ul>`:''}</div>`;
+  }
+  let shotsHTML='';
+  if(w.shots){
+    shotsHTML=`<div style="margin-top:26px"><div class="demohdr"><h3>Скриншоты экранов</h3></div>
+      <div class="shots">${w.shots.map(s=>`<img loading="lazy" src="${enc(w.shotsDir+'/'+s)}" onclick="zoom(this.src)">`).join('')}</div></div>`;
+  }
+  document.getElementById('dwrap').innerHTML=`
+    <div class="dhead">
+      <div class="dicon" style="background:${w.grad}">${w.icon}</div>
+      <div><span class="badge ${badgeClass[w.type]}">${w.typeLabel}</span>
+        <h2>${w.title}</h2>
+        <div class="stack">${w.stack.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+      </div>
+    </div>
+    <div class="pdr">
+      <div class="pbox p1"><h4>Проблема</h4><p>${w.problem}</p></div>
+      <div class="pbox p2"><h4>Что сделано</h4><ul>${w.done.map(d=>`<li>${d}</li>`).join('')}</ul></div>
+      <div class="pbox p3"><h4>Результат</h4><p>${w.result}</p></div>
+    </div>
+    ${demoHTML}
+    ${shotsHTML}
+  `;
+  document.getElementById('detail').classList.add('show');
+  document.getElementById('detail').scrollTop=0;
+  window.scrollTo(0,0);
+}
+function closeDetail(){document.getElementById('detail').classList.remove('show');}
+function step(d){let n=(cur+d+W.length)%W.length;openDetail(n);}
+function zoom(src){document.getElementById('lbimg').src=src;document.getElementById('lightbox').classList.add('show');}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('detail').classList.contains('show'))return;
+  if(e.key==='Escape')closeDetail();
+  if(e.key==='ArrowRight')step(1);
+  if(e.key==='ArrowLeft')step(-1);
+});
+function enterPortfolio(){
+  document.getElementById('cover').classList.add('hide');
+  document.getElementById('titlebtn').style.display='block';
+}
+function showCover(){
+  closeDetail();
+  document.getElementById('cover').classList.remove('hide');
+  document.getElementById('titlebtn').style.display='none';
+  window.scrollTo(0,0);
+}
+renderGrid();
+</script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Исправить запись</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 7: Исправление записи водителем -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="sticky top-0 z-10 border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
+      <div>
+        <p class="text-xs text-slate-500">Сергей Иванов · Lada Largus М582КТ 39</p>
+        <h1 class="text-lg font-semibold text-slate-950">Исправить запись</h1>
+      </div>
+
+      <a
+        href="/driver/records/"
+        class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+      >
+        Мои записи
+      </a>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-3xl px-4 py-5 sm:px-6 sm:py-8">
+    <form method="post" hx-post="/driver/records/103/edit/" hx-target="#edit-result" class="space-y-5">
+      <div class="rounded-md border border-amber-200 bg-amber-50 p-4 sm:p-5">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p class="text-sm font-medium text-amber-900">Запись вернули на уточнение</p>
+            <h2 class="mt-1 text-xl font-semibold text-slate-950">
+              23 мая 2026 · поездка и заправка
+            </h2>
+            <p class="mt-2 text-sm leading-6 text-amber-900">
+              Причина: нет фото чека по заправке на 1 120,00 ₽.
+            </p>
+          </div>
+
+          <span class="inline-flex w-fit rounded-md bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-900">
+            требует уточнения
+          </span>
+        </div>
+      </div>
+
+      <div class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+        <h2 class="text-base font-semibold text-slate-950">Поездка</h2>
+
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <label class="block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Дата поездки</span>
+            <input
+              name="trip_date"
+              type="date"
+              value="2026-05-23"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Машина</span>
+            <select
+              name="vehicle"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            >
+              <option>Lada Largus, М582КТ 39</option>
+              <option>Газель Next, А124ВС 39</option>
+              <option>Ford Transit, К771ОР 39</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="mt-4 block">
+          <span class="mb-1.5 block text-sm font-medium text-slate-700">Маршрут</span>
+          <textarea
+            name="route"
+            rows="3"
+            class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+          >Офис клиента ООО Балтик-Пак -> склад</textarea>
+        </label>
+
+        <div class="mt-4 grid gap-4 sm:grid-cols-3">
+          <label class="block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Одометр старт</span>
+            <input
+              name="odometer_start"
+              type="number"
+              inputmode="numeric"
+              value="51240"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Одометр финиш</span>
+            <input
+              name="odometer_end"
+              type="number"
+              inputmode="numeric"
+              value="51258"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            />
+          </label>
+
+          <div class="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-3">
+            <p class="text-xs text-emerald-800">Пробег</p>
+            <p class="mt-1 text-lg font-semibold text-emerald-900">18 км</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+        <h2 class="text-base font-semibold text-slate-950">Заправка</h2>
+
+        <div class="mt-4 grid gap-4 sm:grid-cols-3">
+          <label class="block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Литры</span>
+            <input
+              name="liters"
+              type="number"
+              step="0.01"
+              inputmode="decimal"
+              value="17.23"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Сумма, ₽</span>
+            <input
+              name="amount"
+              type="number"
+              step="0.01"
+              inputmode="decimal"
+              value="1120.00"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            />
+          </label>
+
+          <label class="block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Тип топлива</span>
+            <select
+              name="fuel_type"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            >
+              <option>АИ-95</option>
+              <option>АИ-92</option>
+              <option>ДТ</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="mt-4 rounded-md border border-red-200 bg-red-50 px-3 py-3">
+          <p class="text-sm font-medium text-red-800">Нужно исправить</p>
+          <p class="mt-1 text-sm leading-5 text-red-700">
+            Фото чека отсутствует. Добавьте файл, чтобы бухгалтер мог проверить заправку.
+          </p>
+        </div>
+
+        <label class="mt-4 flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center hover:bg-slate-100">
+          <span class="text-sm font-medium text-slate-800">Заменить фото чека</span>
+          <span class="mt-1 text-sm text-slate-500">Камера или файл с телефона</span>
+          <input name="receipt_photo" type="file" accept="image/*" capture="environment" class="sr-only" />
+        </label>
+
+        <div class="mt-4 rounded-md border border-slate-200 bg-slate-50 px-3 py-3 text-sm text-slate-600">
+          После добавления чека запись снова уйдет бухгалтеру на проверку.
+        </div>
+      </div>
+
+      <div id="edit-result" class="hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+        Не удалось отправить запись: проверьте чек и обязательные поля.
+      </div>
+
+      <div class="sticky bottom-0 -mx-4 border-t border-slate-200 bg-white px-4 py-3 sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0">
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <button
+            type="submit"
+            class="inline-flex justify-center rounded-md bg-slate-950 px-4 py-3 text-sm font-medium text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-300"
+          >
+            Отправить на проверку
+          </button>
+
+          <button
+            type="submit"
+            name="save_without_receipt"
+            value="1"
+            class="inline-flex justify-center rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900 hover:bg-amber-100"
+          >
+            Сохранить без чека
+          </button>
+
+          <a
+            href="/driver/records/"
+            class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Назад к моим записям
+          </a>
+        </div>
+      </div>
+    </form>
+
+    <div class="mt-5 rounded-md border border-slate-200 bg-white p-4 text-sm text-slate-600">
+      <p class="font-medium text-slate-800">Закрытый период</p>
+      <p class="mt-1">
+        Если период уже закрыт, поля будут недоступны для редактирования.
+        Исправления в закрытом месяце добавляет бухгалтер через корректировку.
+      </p>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

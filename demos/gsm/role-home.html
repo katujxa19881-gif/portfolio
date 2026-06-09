@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Стартовый экран</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 3: Стартовый экран по роли -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <div>
+        <p class="text-sm text-slate-500">Единый контур учета поездок и ГСМ</p>
+        <h1 class="mt-1 text-xl font-semibold text-slate-950">Стартовый экран</h1>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="hidden text-right sm:block">
+          <p class="text-sm font-medium text-slate-950">Елена Соколова</p>
+          <p class="text-xs text-slate-500">Бухгалтер</p>
+        </div>
+
+        <a
+          href="/logout/"
+          class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
+          Выйти
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-6xl px-6 py-8">
+    <div class="prototype-state">
+      <style>
+        .prototype-state > input { position: absolute; opacity: 0; pointer-events: none; }
+        .prototype-state .state-panel { display: none; }
+        #role-data:checked ~ .role-data-panel,
+        #role-empty:checked ~ .role-empty-panel,
+        #role-error:checked ~ .role-error-panel { display: block; }
+        #role-data:checked ~ .state-tabs label[for="role-data"],
+        #role-empty:checked ~ .state-tabs label[for="role-empty"],
+        #role-error:checked ~ .state-tabs label[for="role-error"] { background: #020617; color: #ffffff; border-color: #020617; }
+      </style>
+
+      <input id="role-data" name="role-state" type="radio" checked>
+      <input id="role-empty" name="role-state" type="radio">
+      <input id="role-error" name="role-state" type="radio">
+
+      <div class="state-tabs mb-5 flex flex-wrap gap-2">
+        <label for="role-data" class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700">С данными</label>
+        <label for="role-empty" class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700">Пусто</label>
+        <label for="role-error" class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700">Ошибка</label>
+      </div>
+
+      <div class="state-panel role-data-panel">
+    <div class="grid gap-6 lg:grid-cols-[1fr_320px]">
+      <div>
+        <div class="rounded-md border border-slate-200 bg-white p-6">
+          <p class="text-sm font-medium text-slate-500">Ваша роль</p>
+
+          <div class="mt-3 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 class="text-2xl font-semibold text-slate-950">Бухгалтер</h2>
+              <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                Вы видите поездки, заправки, чеки, ошибки, импорт CSV,
+                справочники и готовность периода к закрытию.
+              </p>
+            </div>
+
+            <a
+              href="/accountant/"
+              class="inline-flex justify-center rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+            >
+              Перейти к работе
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">
+            Доступные разделы
+          </h3>
+
+          <div class="mt-3 grid gap-3 md:grid-cols-2">
+            <a
+              href="/accountant/"
+              class="rounded-md border border-slate-200 bg-white p-4 hover:border-slate-300 hover:bg-slate-50"
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-medium text-slate-950">Кабинет бухгалтера</p>
+                  <p class="mt-1 text-sm leading-5 text-slate-500">
+                    Счетчики периода, готовность к закрытию, проблемные данные.
+                  </p>
+                </div>
+                <span class="rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700">
+                  7 ошибок
+                </span>
+              </div>
+            </a>
+
+            <a
+              href="/accountant/registry/"
+              class="rounded-md border border-slate-200 bg-white p-4 hover:border-slate-300 hover:bg-slate-50"
+            >
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <p class="font-medium text-slate-950">Реестр поездок и заправок</p>
+                  <p class="mt-1 text-sm leading-5 text-slate-500">
+                    Все записи по водителям, машинам, чекам и статусам.
+                  </p>
+                </div>
+                <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
+                  58 записей
+                </span>
+              </div>
+            </a>
+
+            <a
+              href="/accountant/import/"
+              class="rounded-md border border-slate-200 bg-white p-4 hover:border-slate-300 hover:bg-slate-50"
+            >
+              <p class="font-medium text-slate-950">Импорт CSV топливных операций</p>
+              <p class="mt-1 text-sm leading-5 text-slate-500">
+                Загрузка операций по топливным картам для сверки.
+              </p>
+            </a>
+
+            <a
+              href="/accountant/month-close/"
+              class="rounded-md border border-slate-200 bg-white p-4 hover:border-slate-300 hover:bg-slate-50"
+            >
+              <p class="font-medium text-slate-950">Закрытие месяца</p>
+              <p class="mt-1 text-sm leading-5 text-slate-500">
+                Проверка блокирующих ошибок и фиксация периода.
+              </p>
+            </a>
+
+            <a
+              href="/accountant/directories/"
+              class="rounded-md border border-slate-200 bg-white p-4 hover:border-slate-300 hover:bg-slate-50"
+            >
+              <p class="font-medium text-slate-950">Справочники</p>
+              <p class="mt-1 text-sm leading-5 text-slate-500">
+                Машины, водители, подразделения, типы топлива и периоды.
+              </p>
+            </a>
+
+            <a
+              href="/accountant/users/"
+              class="rounded-md border border-slate-200 bg-white p-4 hover:border-slate-300 hover:bg-slate-50"
+            >
+              <p class="font-medium text-slate-950">Пользователи и роли</p>
+              <p class="mt-1 text-sm leading-5 text-slate-500">
+                Создание пользователей и выдача временных паролей.
+              </p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="space-y-4">
+        <div class="rounded-md border border-slate-200 bg-white p-5">
+          <p class="text-sm font-medium text-slate-500">Текущий период</p>
+          <p class="mt-1 text-lg font-semibold text-slate-950">Май 2026</p>
+
+          <dl class="mt-5 space-y-3 text-sm">
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Поездки</dt>
+              <dd class="font-medium text-slate-950">46</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Заправки</dt>
+              <dd class="font-medium text-slate-950">12</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Проверено</dt>
+              <dd class="font-medium text-slate-950">42 из 58</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Проблемные записи</dt>
+              <dd class="font-medium text-red-700">7</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="rounded-md border border-amber-200 bg-amber-50 p-5">
+          <p class="text-sm font-medium text-amber-900">Что мешает закрытию</p>
+          <ul class="mt-3 space-y-2 text-sm text-amber-800">
+            <li>3 записи без фото чека</li>
+            <li>2 записи без маршрута</li>
+            <li>1 ошибка одометра</li>
+            <li>1 операция топливной карты не сопоставлена</li>
+          </ul>
+
+          <a
+            href="/accountant/discrepancies/"
+            class="mt-4 inline-flex rounded-md border border-amber-300 bg-white px-3 py-2 text-sm font-medium text-amber-900 hover:bg-amber-100"
+          >
+            Открыть расхождения
+          </a>
+        </div>
+      </aside>
+    </div>
+      </div>
+
+      <div class="state-panel role-empty-panel">
+        <div class="rounded-md border border-slate-200 bg-white p-8 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M5 7h14M7 7v12h10V7M9 7V5h6v2" />
+              <path d="M9 11h6M9 15h4" />
+            </svg>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-slate-950">У тебя пока нет рабочих данных</h2>
+          <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+            Это первый день в системе или по выбранному периоду ещё нет поездок, заправок и задач.
+          </p>
+          <a
+            href="/accountant/"
+            class="mt-5 inline-flex justify-center rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Создать первые данные
+          </a>
+        </div>
+      </div>
+
+      <div class="state-panel role-error-panel">
+        <div class="rounded-md border border-red-200 bg-white p-8 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-700">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M12 8v5" />
+              <path d="M12 17h.01" />
+              <path d="M10.3 4.5 2.7 18a1.7 1.7 0 0 0 1.5 2.5h15.6a1.7 1.7 0 0 0 1.5-2.5L13.7 4.5a1.9 1.9 0 0 0-3.4 0Z" />
+            </svg>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-slate-950">Не получилось загрузить стартовый экран</h2>
+          <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+            Данные временно недоступны. Попробуйте обновить экран через пару секунд.
+          </p>
+          <button
+            type="button"
+            hx-get="/home/"
+            hx-target="main"
+            class="mt-5 rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Попробовать снова
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

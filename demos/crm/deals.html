@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сделки — CRM НПО ЦТС</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<div class="flex min-h-screen">
+  <aside class="w-56 bg-slate-900 text-slate-300 flex flex-col shrink-0">
+    <div class="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-bold text-xs">ЦТС</span>
+      <span class="font-semibold text-white text-sm">CRM отдела</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+      <a href="dashboard.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Дашборд</a>
+      <a href="customers-list.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Заказчики</a>
+      <a href="deals.html" class="block rounded-lg px-3 py-2 bg-blue-600 text-white">Сделки</a>
+      <a href="tasks.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Задачи</a>
+      <a href="reports.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Отчёты</a>
+      <a href="directories.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Справочники</a>
+      <a href="users.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Сотрудники</a>
+    </nav>
+  </aside>
+  <div class="flex-1 flex flex-col">
+    <header class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <h1 class="text-lg font-semibold text-slate-800">Сделки</h1>
+        <div class="flex gap-1 text-sm">
+          <button class="rounded-lg bg-blue-600 text-white px-3 py-1.5">Воронка 1 · первый запрос</button>
+          <button class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5">Воронка 2 · повторные</button>
+        </div>
+      </div>
+      <span class="text-xs text-slate-400">Сортировка: дата следующего контакта ↑</span>
+    </header>
+    <main class="flex-1 p-6 overflow-x-auto">
+      <div class="flex gap-4 min-w-max">
+        <!-- Column -->
+        <div class="w-72">
+          <div class="text-sm font-medium text-slate-600 mb-2 px-1">Просчёт заявки <span class="text-slate-400">· 2</span></div>
+          <div class="space-y-2">
+            <div class="bg-red-50 border border-red-200 rounded-xl p-3">
+              <div class="font-medium text-slate-800 text-sm">ООО «Телеком-Сервис»</div>
+              <div class="text-xs text-slate-500 mt-1">Коммутаторы · 1,25 млн ₽</div>
+              <div class="text-xs font-medium text-red-700 mt-2">⏰ контакт просрочен: 28.05</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl p-3">
+              <div class="font-medium text-slate-800 text-sm">ООО «КИПиА-Монтаж»</div>
+              <div class="text-xs text-slate-500 mt-1">Счётчики · 480 тыс ₽</div>
+              <div class="text-xs text-slate-400 mt-2">контакт: 03.06</div>
+            </div>
+          </div>
+        </div>
+        <!-- Column -->
+        <div class="w-72">
+          <div class="text-sm font-medium text-slate-600 mb-2 px-1">КП выставлено · получить ОС <span class="text-slate-400">· 1</span></div>
+          <div class="space-y-2">
+            <div class="bg-red-50 border border-red-200 rounded-xl p-3">
+              <div class="font-medium text-slate-800 text-sm">АО «ВычТех»</div>
+              <div class="text-xs text-slate-500 mt-1">Серверы · 3,4 млн ₽</div>
+              <div class="text-xs font-medium text-red-700 mt-2">⏰ узнать ОС: 30.05</div>
+            </div>
+          </div>
+        </div>
+        <!-- Column -->
+        <div class="w-72">
+          <div class="text-sm font-medium text-slate-600 mb-2 px-1">Получена ОС <span class="text-slate-400">· 1</span></div>
+          <div class="space-y-2">
+            <div class="bg-white border border-slate-200 rounded-xl p-3">
+              <div class="font-medium text-slate-800 text-sm">ПАО «СвязьИнвест»</div>
+              <div class="text-xs text-slate-500 mt-1">СХД · 2,1 млн ₽</div>
+              <div class="text-xs text-emerald-600 mt-2">✓ ОС получена</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

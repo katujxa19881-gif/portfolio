@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Пользователи и роли</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 17: Пользователи и роли -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+      <div>
+        <p class="text-sm text-slate-500">Кабинет бухгалтера</p>
+        <h1 class="mt-1 text-xl font-semibold text-slate-950">Пользователи и роли</h1>
+      </div>
+
+      <a
+        href="/accountant/"
+        class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+      >
+        Назад в кабинет
+      </a>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+    <div class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-500">Доступ к системе</p>
+          <h2 class="mt-1 text-2xl font-semibold text-slate-950">Пользователи, роли и временные пароли</h2>
+          <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+            Самостоятельной регистрации нет. Пользователей создаёт бухгалтер или техадмин,
+            затем передаёт логин и временный пароль вне приложения.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          hx-get="/accountant/users/new/"
+          hx-target="#user-editor"
+          class="rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+        >
+          Создать пользователя
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Всего пользователей</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">8</p>
+      </div>
+
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Водители</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">3</p>
+      </div>
+
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Офисные роли</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">4</p>
+      </div>
+
+      <div class="rounded-md border border-amber-200 bg-amber-50 p-4">
+        <p class="text-sm text-amber-800">Временный пароль</p>
+        <p class="mt-1 text-2xl font-semibold text-amber-900">1</p>
+      </div>
+
+      <div class="rounded-md border border-emerald-200 bg-emerald-50 p-4">
+        <p class="text-sm text-emerald-800">Активные</p>
+        <p class="mt-1 text-2xl font-semibold text-emerald-900">7</p>
+      </div>
+    </div>
+
+    <div class="mt-5 grid gap-5 lg:grid-cols-[1fr_360px]">
+      <section id="users-table" class="overflow-hidden rounded-md border border-slate-200 bg-white">
+        <div class="flex flex-col gap-3 border-b border-slate-200 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 class="text-base font-semibold text-slate-950">Список пользователей</h2>
+            <p class="mt-1 text-sm text-slate-500">Роль определяет стартовый экран и доступные разделы.</p>
+          </div>
+
+          <select class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+            <option>Все роли</option>
+            <option>Водитель</option>
+            <option>Бухгалтер</option>
+            <option>ПЭО</option>
+            <option>Директор</option>
+            <option>Техадмин</option>
+          </select>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="min-w-[980px] w-full text-left text-sm">
+            <thead class="bg-slate-50 text-xs font-semibold uppercase text-slate-500">
+              <tr>
+                <th class="px-4 py-3">Пользователь</th>
+                <th class="px-4 py-3">Логин</th>
+                <th class="px-4 py-3">Роль</th>
+                <th class="px-4 py-3">Подразделение</th>
+                <th class="px-4 py-3">Пароль</th>
+                <th class="px-4 py-3">Активность</th>
+                <th class="px-4 py-3"></th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-950">Сергей Иванов</td>
+                <td class="px-4 py-4">ivanov.driver</td>
+                <td class="px-4 py-4">Водитель</td>
+                <td class="px-4 py-4">Склад</td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                    сменён
+                  </span>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                    активен
+                  </span>
+                </td>
+                <td class="px-4 py-4 text-right">
+                  <div class="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      hx-get="/accountant/users/ivanov.driver/edit/"
+                      hx-target="#user-editor"
+                      class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50"
+                    >
+                      Редактировать
+                    </button>
+                    <button
+                      type="button"
+                      hx-post="/accountant/users/ivanov.driver/reset-password/"
+                      hx-target="#user-editor"
+                      class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50"
+                    >
+                      Сбросить пароль
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-950">Елена Соколова</td>
+                <td class="px-4 py-4">sokolova.acc</td>
+                <td class="px-4 py-4">Бухгалтер</td>
+                <td class="px-4 py-4">Бухгалтерия</td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                    сменён
+                  </span>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                    активен
+                  </span>
+                </td>
+                <td class="px-4 py-4 text-right">
+                  <button
+                    type="button"
+                    hx-get="/accountant/users/sokolova.acc/edit/"
+                    hx-target="#user-editor"
+                    class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50"
+                  >
+                    Редактировать
+                  </button>
+                </td>
+              </tr>
+
+              <tr class="bg-amber-50">
+                <td class="px-4 py-4 font-medium text-slate-950">Ирина Ковалева</td>
+                <td class="px-4 py-4">kovaleva.peo</td>
+                <td class="px-4 py-4">ПЭО</td>
+                <td class="px-4 py-4">Планово-экономический отдел</td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900">
+                    временный
+                  </span>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                    активна
+                  </span>
+                </td>
+                <td class="px-4 py-4 text-right">
+                  <div class="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      hx-get="/accountant/users/kovaleva.peo/edit/"
+                      hx-target="#user-editor"
+                      class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50"
+                    >
+                      Редактировать
+                    </button>
+                    <button
+                      type="button"
+                      hx-get="/accountant/users/kovaleva.peo/temp-password/"
+                      hx-target="#user-editor"
+                      class="rounded-md bg-amber-900 px-3 py-2 font-medium text-white hover:bg-amber-800"
+                    >
+                      Показать пароль
+                    </button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="px-4 py-4 font-medium text-slate-950">Олег Морозов</td>
+                <td class="px-4 py-4">morozov.director</td>
+                <td class="px-4 py-4">Директор</td>
+                <td class="px-4 py-4">Управление</td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                    сменён
+                  </span>
+                </td>
+                <td class="px-4 py-4">
+                  <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
+                    не входил 12 дней
+                  </span>
+                </td>
+                <td class="px-4 py-4 text-right">
+                  <button
+                    type="button"
+                    hx-get="/accountant/users/morozov.director/edit/"
+                    hx-target="#user-editor"
+                    class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50"
+                  >
+                    Редактировать
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="space-y-5">
+        <section id="user-editor" class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Новый пользователь</h2>
+
+          <div class="mt-4 space-y-4">
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">ФИО</span>
+              <input
+                type="text"
+                value="Ирина Ковалева"
+                class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Логин</span>
+              <input
+                type="text"
+                value="kovaleva.peo"
+                class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Роль</span>
+              <select class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm">
+                <option>ПЭО</option>
+                <option>Водитель</option>
+                <option>Бухгалтер</option>
+                <option>Директор</option>
+                <option>Техадмин</option>
+              </select>
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Подразделение</span>
+              <select class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm">
+                <option>Планово-экономический отдел</option>
+                <option>Склад</option>
+                <option>Бухгалтерия</option>
+                <option>Продажи</option>
+                <option>Управление</option>
+              </select>
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Привязка к водителю</span>
+              <select class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm">
+                <option>Не требуется</option>
+                <option>Сергей Иванов</option>
+                <option>Андрей Петров</option>
+                <option>Михаил Орлов</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="mt-5 rounded-md border border-amber-200 bg-amber-50 p-3">
+            <p class="text-sm font-medium text-amber-900">Временный пароль</p>
+            <p class="mt-1 font-mono text-lg font-semibold text-slate-950">Temp-4829</p>
+            <p class="mt-1 text-sm leading-5 text-amber-900">
+              Передайте пароль пользователю вне приложения. При первом входе система попросит его сменить.
+            </p>
+          </div>
+
+          <div class="mt-5 flex flex-col gap-2">
+            <button
+              type="button"
+              hx-post="/accountant/users/"
+              hx-target="#users-table"
+              class="rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+            >
+              Создать пользователя
+            </button>
+            <button
+              type="button"
+              hx-get="/accountant/users/temp-password/"
+              hx-target="#user-editor"
+              class="rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Сгенерировать временный пароль
+            </button>
+          </div>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Права по ролям</h2>
+
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li>Водитель: свои поездки, заправки и чеки</li>
+            <li>Бухгалтер: проверка, справочники, пользователи, закрытие месяца</li>
+            <li>ПЭО: CSV-выгрузка проверенных данных</li>
+            <li>Директор: сводка расходов и статус закрытия</li>
+            <li>Техадмин: полный доступ и диагностика</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

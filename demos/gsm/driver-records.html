@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Мои записи</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 6: Мои записи водителя -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="sticky top-0 z-10 border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
+      <div>
+        <p class="text-xs text-slate-500">Сергей Иванов · водитель</p>
+        <h1 class="text-lg font-semibold text-slate-950">Мои записи</h1>
+      </div>
+
+      <a
+        href="/driver/trips/new/"
+        class="rounded-md bg-slate-950 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
+      >
+        Новая поездка
+      </a>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-5xl px-4 py-5 sm:px-6 sm:py-8">
+    <div class="prototype-state">
+      <style>
+        .prototype-state > input { position: absolute; opacity: 0; pointer-events: none; }
+        .prototype-state .state-panel { display: none; }
+        #records-data:checked ~ .records-data-panel,
+        #records-empty:checked ~ .records-empty-panel,
+        #records-error:checked ~ .records-error-panel { display: block; }
+        #records-data:checked ~ .state-tabs label[for="records-data"],
+        #records-empty:checked ~ .state-tabs label[for="records-empty"],
+        #records-error:checked ~ .state-tabs label[for="records-error"] { background: #020617; color: #ffffff; border-color: #020617; }
+      </style>
+
+      <input id="records-data" name="records-state" type="radio" checked>
+      <input id="records-empty" name="records-state" type="radio">
+      <input id="records-error" name="records-state" type="radio">
+
+      <div class="state-tabs mb-5 flex flex-wrap gap-2">
+        <label for="records-data" class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700">С данными</label>
+        <label for="records-empty" class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700">Пусто</label>
+        <label for="records-error" class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700">Ошибка</label>
+      </div>
+
+      <div class="state-panel records-data-panel">
+    <div class="grid gap-4 sm:grid-cols-4">
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Всего за май</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">14</p>
+      </div>
+
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">На проверке</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">3</p>
+      </div>
+
+      <div class="rounded-md border border-amber-200 bg-amber-50 p-4">
+        <p class="text-sm text-amber-800">Требуют уточнения</p>
+        <p class="mt-1 text-2xl font-semibold text-amber-900">1</p>
+      </div>
+
+      <div class="rounded-md border border-emerald-200 bg-emerald-50 p-4">
+        <p class="text-sm text-emerald-800">Проверено</p>
+        <p class="mt-1 text-2xl font-semibold text-emerald-900">10</p>
+      </div>
+    </div>
+
+    <div class="mt-5 rounded-md border border-slate-200 bg-white p-4">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 class="text-base font-semibold text-slate-950">Записи за период</h2>
+          <p class="mt-1 text-sm text-slate-500">Май 2026 · показываются только ваши записи</p>
+        </div>
+
+        <div class="flex flex-col gap-2 sm:flex-row">
+          <select
+            name="period"
+            class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+          >
+            <option>Май 2026</option>
+            <option>Апрель 2026</option>
+            <option>Март 2026</option>
+          </select>
+
+          <select
+            name="status"
+            class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+          >
+            <option>Все статусы</option>
+            <option>На проверке</option>
+            <option>Требует уточнения</option>
+            <option>Проверено</option>
+            <option>Закрыто</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-4 space-y-3">
+        <article class="rounded-md border border-slate-200 p-4">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <p class="font-medium text-slate-950">24 мая 2026 · Газель Next А124ВС 39</p>
+                <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
+                  на проверке
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-6 text-slate-600">
+                Склад Калининград -> магазин на ул. Горького -> склад
+              </p>
+            </div>
+
+            <a
+              href="/driver/records/104/"
+              class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Открыть
+            </a>
+          </div>
+
+          <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-4">
+            <div>
+              <dt class="text-slate-500">Пробег</dt>
+              <dd class="mt-1 font-medium text-slate-950">36 км</dd>
+            </div>
+            <div>
+              <dt class="text-slate-500">Заправка</dt>
+              <dd class="mt-1 font-medium text-slate-950">38,42 л</dd>
+            </div>
+            <div>
+              <dt class="text-slate-500">Чек</dt>
+              <dd class="mt-1 font-medium text-emerald-700">есть</dd>
+            </div>
+            <div>
+              <dt class="text-slate-500">Сумма</dt>
+              <dd class="mt-1 font-medium text-slate-950">2 497,30 ₽</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="rounded-md border border-amber-200 bg-amber-50 p-4">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <p class="font-medium text-slate-950">23 мая 2026 · Lada Largus М582КТ 39</p>
+                <span class="rounded-md bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900">
+                  требует уточнения
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-6 text-slate-700">
+                Доставка документов в офис клиента ООО Балтик-Пак
+              </p>
+              <p class="mt-2 text-sm font-medium text-amber-900">
+                Причина: нет фото чека по заправке на 1 120,00 ₽.
+              </p>
+            </div>
+
+            <div class="flex flex-col gap-2 sm:items-end">
+              <a
+                href="/driver/records/103/edit/"
+                class="inline-flex justify-center rounded-md bg-amber-900 px-3 py-2 text-sm font-medium text-white hover:bg-amber-800"
+              >
+                Исправить
+              </a>
+              <a
+                href="/driver/trips/103/fuel/"
+                class="inline-flex justify-center rounded-md border border-amber-300 bg-white px-3 py-2 text-sm font-medium text-amber-900 hover:bg-amber-100"
+              >
+                Добавить чек
+              </a>
+            </div>
+          </div>
+
+          <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-4">
+            <div>
+              <dt class="text-slate-600">Пробег</dt>
+              <dd class="mt-1 font-medium text-slate-950">18 км</dd>
+            </div>
+            <div>
+              <dt class="text-slate-600">Заправка</dt>
+              <dd class="mt-1 font-medium text-slate-950">17,23 л</dd>
+            </div>
+            <div>
+              <dt class="text-slate-600">Чек</dt>
+              <dd class="mt-1 font-medium text-amber-900">нет</dd>
+            </div>
+            <div>
+              <dt class="text-slate-600">Сумма</dt>
+              <dd class="mt-1 font-medium text-slate-950">1 120,00 ₽</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="rounded-md border border-slate-200 p-4">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <p class="font-medium text-slate-950">22 мая 2026 · Ford Transit К771ОР 39</p>
+                <span class="rounded-md bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
+                  проверено
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-6 text-slate-600">
+                Склад -> Черняховск, доставка продукции клиенту ООО Восток
+              </p>
+            </div>
+
+            <a
+              href="/driver/records/102/"
+              class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Открыть
+            </a>
+          </div>
+
+          <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-4">
+            <div>
+              <dt class="text-slate-500">Пробег</dt>
+              <dd class="mt-1 font-medium text-slate-950">74 км</dd>
+            </div>
+            <div>
+              <dt class="text-slate-500">Заправка</dt>
+              <dd class="mt-1 font-medium text-slate-950">нет</dd>
+            </div>
+            <div>
+              <dt class="text-slate-500">Чек</dt>
+              <dd class="mt-1 font-medium text-slate-500">не требуется</dd>
+            </div>
+            <div>
+              <dt class="text-slate-500">Статус периода</dt>
+              <dd class="mt-1 font-medium text-slate-950">открыт</dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="rounded-md border border-slate-200 bg-slate-50 p-4">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <p class="font-medium text-slate-950">20 мая 2026 · Газель Next А124ВС 39</p>
+                <span class="rounded-md bg-slate-200 px-2 py-1 text-xs font-medium text-slate-700">
+                  закрыто
+                </span>
+              </div>
+              <p class="mt-2 text-sm leading-6 text-slate-600">
+                Склад -> Балтийск, доставка продукции клиенту ООО Причал
+              </p>
+              <p class="mt-2 text-sm text-slate-500">
+                Закрытый период: запись доступна только для просмотра.
+              </p>
+            </div>
+
+            <a
+              href="/driver/records/101/"
+              class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Открыть
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+      </div>
+
+      <div class="state-panel records-empty-panel">
+        <div class="rounded-md border border-slate-200 bg-white p-8 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M8 6h10M8 12h10M8 18h7" />
+              <path d="M4 6h.01M4 12h.01M4 18h.01" />
+            </svg>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-slate-950">У тебя пока нет поездок за этот период</h2>
+          <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+            Когда ты сдашь первую поездку или добавишь заправку, запись появится здесь.
+          </p>
+          <a
+            href="/driver/trips/new/"
+            class="mt-5 inline-flex justify-center rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Создать поездку
+          </a>
+        </div>
+      </div>
+
+      <div class="state-panel records-error-panel">
+        <div class="rounded-md border border-red-200 bg-white p-8 text-center">
+          <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-700">
+            <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M12 8v5" />
+              <path d="M12 17h.01" />
+              <path d="M10.3 4.5 2.7 18a1.7 1.7 0 0 0 1.5 2.5h15.6a1.7 1.7 0 0 0 1.5-2.5L13.7 4.5a1.9 1.9 0 0 0-3.4 0Z" />
+            </svg>
+          </div>
+          <h2 class="mt-4 text-xl font-semibold text-slate-950">Не получилось загрузить твои записи</h2>
+          <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-600">
+            Список поездок временно недоступен. Попробуй повторить загрузку.
+          </p>
+          <button
+            type="button"
+            hx-get="/driver/records/"
+            hx-target="main"
+            class="mt-5 rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Попробовать снова
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

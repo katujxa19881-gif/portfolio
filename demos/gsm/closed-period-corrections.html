@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Корректировки закрытого периода</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 19: Корректировки закрытого периода -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+      <div>
+        <p class="text-sm text-slate-500">Закрытый период · Апрель 2026</p>
+        <h1 class="mt-1 text-xl font-semibold text-slate-950">Корректировки закрытого периода</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a
+          href="/accountant/month-close/"
+          class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
+          Назад к закрытию месяца
+        </a>
+        <a
+          href="/accountant/records/88/"
+          class="rounded-md bg-slate-950 px-3 py-2 text-sm font-medium text-white hover:bg-slate-800"
+        >
+          Открыть исходную запись
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+    <div class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-500">Период закрыт</p>
+          <h2 class="mt-1 text-2xl font-semibold text-slate-950">Апрель 2026</h2>
+          <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+            Записи закрытого периода не редактируются напрямую. Исправления добавляются отдельными корректировками
+            с причиной, автором, датой и связью с исходной записью.
+          </p>
+        </div>
+
+        <span class="inline-flex w-fit rounded-md bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+          закрыто 03.05.2026
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-5 grid gap-4 sm:grid-cols-4">
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Корректировок</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">2</p>
+      </div>
+
+      <div class="rounded-md border border-amber-200 bg-amber-50 p-4">
+        <p class="text-sm text-amber-800">Ожидают проверки</p>
+        <p class="mt-1 text-2xl font-semibold text-amber-900">1</p>
+      </div>
+
+      <div class="rounded-md border border-emerald-200 bg-emerald-50 p-4">
+        <p class="text-sm text-emerald-800">Приняты</p>
+        <p class="mt-1 text-2xl font-semibold text-emerald-900">1</p>
+      </div>
+
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Автор текущей</p>
+        <p class="mt-1 text-lg font-semibold text-slate-950">Елена</p>
+      </div>
+    </div>
+
+    <div class="mt-5 grid gap-5 lg:grid-cols-[1fr_380px]">
+      <div class="space-y-5">
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Исходная запись</h2>
+
+          <dl class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+              <dt class="text-sm text-slate-500">Дата</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">28.04.2026</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Водитель</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">Сергей Иванов</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Машина</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">Газель Next · А124ВС 39</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Маршрут</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">Склад -> Балтийск -> склад</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Пробег</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">64 км</dd>
+            </div>
+
+            <div>
+              <dt class="text-sm text-slate-500">Статус</dt>
+              <dd class="mt-1 text-sm font-medium text-slate-950">закрыто</dd>
+            </div>
+          </dl>
+
+          <div class="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-900">
+            Найден чек после закрытия периода. Исправление не меняет исходную запись напрямую.
+          </div>
+        </section>
+
+        <form
+          method="post"
+          hx-post="/accountant/corrections/new/"
+          hx-target="#correction-result"
+          class="rounded-md border border-slate-200 bg-white p-4 sm:p-5"
+        >
+          <h2 class="text-base font-semibold text-slate-950">Новая корректировка</h2>
+
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Тип корректировки</span>
+              <select name="correction_type" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm">
+                <option>Добавить чек к заправке</option>
+                <option>Исправить сумму</option>
+                <option>Исправить литры</option>
+                <option>Исправить подразделение</option>
+                <option>Другое</option>
+              </select>
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Период</span>
+              <input
+                name="period"
+                type="text"
+                value="Апрель 2026"
+                disabled
+                class="w-full rounded-md border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm text-slate-500"
+              />
+            </label>
+          </div>
+
+          <label class="mt-4 block">
+            <span class="mb-1.5 block text-sm font-medium text-slate-700">Причина корректировки</span>
+            <textarea
+              name="reason"
+              rows="4"
+              class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
+            >Водитель нашёл чек после закрытия периода. Нужно добавить подтверждение к заправке от 28.04.2026.</textarea>
+          </label>
+
+          <div class="mt-4 grid gap-4 sm:grid-cols-3">
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Литры</span>
+              <input
+                name="liters"
+                type="number"
+                step="0.01"
+                value="34.46"
+                class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Сумма, ₽</span>
+              <input
+                name="amount"
+                type="number"
+                step="0.01"
+                value="2240.00"
+                class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm"
+              />
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Тип топлива</span>
+              <select name="fuel_type" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm">
+                <option>ДТ</option>
+                <option>АИ-95</option>
+                <option>АИ-92</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="mt-4 flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-center hover:bg-slate-100">
+            <span class="text-sm font-medium text-slate-800">Прикрепить найденный чек</span>
+            <span class="mt-1 text-sm text-slate-500">receipt_2026-04-28_1810.jpg</span>
+            <input name="receipt_photo" type="file" accept="image/*" class="sr-only" />
+          </label>
+
+          <div id="correction-result" class="mt-4 hidden rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            Укажите причину корректировки и изменяемые поля.
+          </div>
+
+          <div class="mt-5 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="submit"
+              class="inline-flex justify-center rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+            >
+              Создать корректировку
+            </button>
+
+            <a
+              href="/accountant/month-close/"
+              class="inline-flex justify-center rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Отменить
+            </a>
+          </div>
+        </form>
+      </div>
+
+      <aside class="space-y-5">
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Служебные поля</h2>
+
+          <dl class="mt-4 space-y-3 text-sm">
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Автор</dt>
+              <dd class="font-medium text-slate-950">Елена Соколова</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Дата создания</dt>
+              <dd class="font-medium text-slate-950">24.05.2026 18:40</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Связь</dt>
+              <dd class="font-medium text-slate-950">Запись #88</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Статус</dt>
+              <dd class="font-medium text-amber-900">новая</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">История корректировок</h2>
+
+          <div class="mt-4 space-y-3 text-sm">
+            <div class="rounded-md border border-emerald-200 bg-emerald-50 p-3">
+              <p class="font-medium text-emerald-900">Корректировка принята</p>
+              <p class="mt-1 text-emerald-800">12.05.2026 · исправлена сумма заправки</p>
+            </div>
+
+            <div class="rounded-md border border-amber-200 bg-amber-50 p-3">
+              <p class="font-medium text-amber-900">Новая корректировка</p>
+              <p class="mt-1 text-amber-900">Добавить чек к записи #88</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Правило</h2>
+          <p class="mt-2 text-sm leading-6 text-slate-600">
+            Закрытый период не открывается заново. Любое изменение хранится отдельной корректировкой,
+            чтобы была видна причина, автор и связь с исходной записью.
+          </p>
+        </section>
+      </aside>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

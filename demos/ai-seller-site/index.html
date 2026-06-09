@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Эксперт финансист</title>
+</head>
+<body style="margin:0;">
+<!-- 
+  Полностью независимый код. Подходит для Tilda (блок T123), GitHub Pages и других платформ.
+-->
+<div class="kt-app">
+  <style>
+    /* Базовые переменные и сброс */
+    .kt-app {
+      --bg-main: #060a08;
+      --bg-panel: rgba(13, 22, 17, 0.7);
+      --accent: #00e676;
+      --accent-hover: #00c060;
+      --text-light: #ffffff;
+      --text-dim: #8b9e95;
+      --border: rgba(0, 230, 118, 0.15);
+      --blur: blur(24px);
+      
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-light);
+      margin: 0; padding: 0; box-sizing: border-box;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .kt-app * { box-sizing: border-box; }
+
+    /* Плавный скролл для всего документа */
+    html { scroll-behavior: smooth; }
+
+    /* Фоновый градиент */
+    .kt-app::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 100vh;
+      background: radial-gradient(circle at 50% 0%, rgba(0, 230, 118, 0.1), transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* Типографика */
+    .kt-app h1 { font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
+    .kt-app h2 { font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; margin-bottom: 2.5rem; text-align: center; }
+    .kt-app h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: var(--accent); text-transform: lowercase; }
+    .kt-app p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 1.5rem; }
+    
+    .kt-app ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+    .kt-app li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; color: var(--text-dim); }
+    .kt-app li::before { content: '>'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+    /* Кнопки */
+    .kt-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 1.2rem 2.5rem; border-radius: 12px;
+      background: var(--accent); color: #000000 !important;
+      font-weight: 700; font-size: 1.1rem; text-decoration: none; border: none;
+      cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0, 230, 118, 0.2);
+    }
+    .kt-btn:hover { background: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0, 230, 118, 0.4); }
+    .kt-btn-outline { background: transparent; color: var(--text-light) !important; border: 1px solid var(--accent); box-shadow: none; }
+    .kt-btn-outline:hover { background: rgba(0, 230, 118, 0.1); }
+    .kt-btn-small { padding: 0.8rem 1.5rem; font-size: 0.95rem; }
+
+    /* Общий контейнер секций */
+    .kt-section { padding: 5rem 5%; max-width: 1400px; margin: 0 auto; position: relative; z-index: 2; }
+
+    /* 1. Липкая навигация */
+    .kt-nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+      background: rgba(6, 10, 8, 0.85); backdrop-filter: var(--blur);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
+    }
+    .kt-nav-logo { font-weight: 800; font-size: 1.2rem; color: var(--text-light); text-decoration: none; }
+    .kt-nav-links { display: flex; gap: 2rem; }
+    .kt-nav-link { color: var(--text-dim); text-decoration: none; font-size: 0.95rem; transition: color 0.3s; }
+    .kt-nav-link:hover { color: var(--accent); }
+    
+    @media (max-width: 900px) { .kt-nav-links { display: none; } }
+
+    /* 2. Главный экран (Жесткая структура Flexbox) */
+    .kt-hero { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      gap: 3rem;
+      min-height: 90vh; 
+      padding-top: 8rem;
+    }
+    .kt-hero-text { 
+      width: 50%; 
+      flex-shrink: 0; 
+    }
+    .kt-hero-visual { 
+      width: 45%; 
+      flex-shrink: 0; 
+    }
+    .kt-hero-img-wrap {
+      border-radius: 24px; overflow: hidden;
+      border: 1px solid var(--border); padding: 10px;
+      background: linear-gradient(135deg, rgba(0,230,118,0.2) 0%, transparent 100%);
+    }
+    
+    /* Адаптация картинки (фокус на верхней части) */
+    .kt-hero-img { 
+      width: 100%; 
+      height: 100%; 
+      max-height: 650px; 
+      border-radius: 16px; 
+      display: block; 
+      object-fit: cover; 
+      object-position: top center; /* фиксируем фокус на голове */
+      aspect-ratio: 3/4; 
+    }
+    
+    @media (max-width: 900px) {
+      .kt-hero { flex-direction: column; text-align: left; padding-top: 6rem; }
+      .kt-hero-text, .kt-hero-visual { width: 100%; }
+      .kt-hero-img { aspect-ratio: 1/1; max-height: 450px; } 
+    }
+
+    /* 3. Карусель (Нативный scroll-snap, без зависаний) */
+    .kt-carousel-wrapper { position: relative; margin-bottom: 1.5rem; }
+    .kt-track { 
+      display: flex; gap: 1.5rem; overflow-x: auto; 
+      scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      padding-bottom: 1rem; 
+      -ms-overflow-style: none; scrollbar-width: none; 
+    }
+    .kt-track::-webkit-scrollbar { display: none; }
+    .kt-card {
+      flex: 0 0 calc(33.333% - 1rem); 
+      scroll-snap-align: start;
+      background: var(--bg-panel); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2.5rem; transition: transform 0.3s;
+    }
+    .kt-card:hover { border-color: var(--accent); }
+    
+    .kt-controls { display: flex; justify-content: center; gap: 1rem; }
+    .kt-ctrl-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border);
+      background: transparent; color: var(--accent); font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all 0.3s;
+    }
+    .kt-ctrl-btn:hover { background: var(--accent); color: #000; transform: scale(1.1); }
+    
+    @media (max-width: 1024px) { .kt-card { flex: 0 0 calc(50% - 0.75rem); } }
+    @media (max-width: 600px) { .kt-card { flex: 0 0 100%; } }
+
+    /* 4. Интерактивный калькулятор */
+    .kt-calc-box {
+      background: var(--bg-panel); border: 1px solid var(--border);
+      border-radius: 24px; padding: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+    }
+    .kt-slider-group { margin-bottom: 2rem; }
+    .kt-slider-label { display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--text-light); }
+    .kt-range { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; }
+    .kt-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); cursor: pointer; }
+    .kt-calc-result { background: rgba(0, 230, 118, 0.05); padding: 3rem; border-radius: 20px; text-align: center; border: 1px solid rgba(0, 230, 118, 0.2); }
+    .kt-calc-sum { font-size: 3.5rem; font-weight: 800; color: var(--accent); line-height: 1; margin: 1rem 0; }
+    
+    @media (max-width: 900px) { .kt-calc-box { grid-template-columns: 1fr; padding: 2rem; gap: 2rem; } }
+
+    /* 5. Умный Квиз */
+    .kt-quiz { max-width: 800px; margin: 0 auto; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 24px; padding: 4rem; }
+    .kt-quiz-step { display: none; animation: fadeIn 0.4s ease; }
+    .kt-quiz-step.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .kt-quiz-opt {
+      display: block; width: 100%; text-align: left; padding: 1.5rem; margin-bottom: 1rem;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px;
+      color: var(--text-light); font-size: 1.1rem; cursor: pointer; transition: all 0.2s;
+    }
+    .kt-quiz-opt:hover { background: rgba(0, 230, 118, 0.1); border-color: var(--accent); }
+    .kt-quiz-progress { display: flex; gap: 5px; margin-bottom: 2rem; }
+    .kt-progress-dot { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; transition: 0.3s; }
+    .kt-progress-dot.active { background: var(--accent); }
+    
+    @media (max-width: 600px) { .kt-quiz { padding: 2rem 1.5rem; } }
+
+    /* 6. Видео блок */
+    .kt-video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); }
+    .kt-video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    /* 7. FAQ (Аккордеон) */
+    .kt-faq-box { max-width: 800px; margin: 0 auto; }
+    .kt-faq-item { border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+    .kt-faq-btn {
+      width: 100%; text-align: left; background: none; border: none;
+      color: var(--text-light); font-size: 1.15rem; font-weight: 600;
+      padding: 1.5rem 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    }
+    .kt-faq-icon { font-size: 1.5rem; color: var(--accent); transition: transform 0.3s; }
+    .kt-faq-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .kt-faq-content p { margin: 0; padding-bottom: 1.5rem; color: var(--text-dim); }
+    .kt-faq-item.active .kt-faq-content { max-height: 300px; }
+    .kt-faq-item.active .kt-faq-icon { transform: rotate(45deg); }
+
+    /* 8. Прайс */
+    .kt-pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .kt-price-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 24px; padding: 3rem; display: flex; flex-direction: column; }
+    .kt-price-card.featured { border-color: var(--accent); box-shadow: 0 10px 30px rgba(0, 230, 118, 0.1); position: relative;}
+    .kt-price-val { font-size: 2.2rem; font-weight: 800; color: var(--text-light); margin: 1rem 0 2rem; }
+
+    /* 9. Футер */
+    .kt-footer { border-top: 1px solid var(--border); padding: 4rem 5%; text-align: center; margin-top: 2rem; }
+    .kt-footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .kt-footer-links a { color: var(--text-dim); text-decoration: none; font-size: 0.95rem; }
+  </style>
+
+  <!-- Липкая Навигация -->
+  <nav class="kt-nav">
+    <a href="#" class="kt-nav-logo">Катерина. Учет & AI</a>
+    <div class="kt-nav-links">
+      <a href="#services" class="kt-nav-link">услуги</a>
+      <a href="#calculator" class="kt-nav-link">калькулятор</a>
+      <a href="#quiz" class="kt-nav-link">пройти тест</a>
+      <a href="#faq" class="kt-nav-link">faq</a>
+    </div>
+    <a href="https://t.me/Ka_terina8" target="_blank" class="kt-btn kt-btn-small">Написать мне</a>
+  </nav>
+
+  <!-- ЭКРАН 1: Главный (Жесткая структура) -->
+  <section class="kt-section kt-hero">
+    <div class="kt-hero-text">
+      <div style="color: var(--accent); font-weight: 600; margin-bottom: 1rem;">Начальник ПЭО, 15 лет стажа</div>
+      <h1>Трансформирую финансовый хаос в прозрачную систему</h1>
+      <p>перестраиваю громоздкие базы данных в быстрые плоские таблицы. заставляю нейросети писать макросы, чтобы вы не тратили часы на ручную сборку управленческой отчетности.</p>
+      <a href="https://t.me/Ka_terina8" target="_blank" class="kt-btn">Обсудить проект в Telegram</a>
+    </div>
+    
+    <div class="kt-hero-visual">
+      <div class="kt-hero-img-wrap">
+        <!-- Фотография Катерины с обновленной ссылкой и фокусом на лице -->
+        <img src="./assets/hero.jpg" alt="Фото Катерины" class="kt-hero-img" draggable="false" onerror="this.onerror=null;this.src='https://i.yapx.cc/dQjNT.jpg';">
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 2: Карусель Услуг -->
+  <section id="services" class="kt-section">
+    <h2>С чем я могу помочь</h2>
+    <div class="kt-carousel-component">
+      <div class="kt-carousel-wrapper">
+        <div class="kt-track">
+          <div class="kt-card">
+            <h3>архитектура учета</h3>
+            <p>проектирую базы данных с нуля. перевожу компанию на работу с плоскими таблицами без многоэтажных формул.</p>
+          </div>
+          <div class="kt-card">
+            <h3>вайбкодинг и нейросети</h3>
+            <p>заставляю искусственный интеллект писать сложные скрипты для google sheets и excel по вашим текстовым запросам.</p>
+          </div>
+          <div class="kt-card">
+            <h3>управленческие дашборды</h3>
+            <p>собираю наглядные панели управления. руководитель видит ключевые показатели бизнеса без погружения в массивы данных.</p>
+          </div>
+          <div class="kt-card">
+            <h3>обучение команд</h3>
+            <p>учу финансовые отделы внедрять нейросети в ежедневную работу, чтобы автоматизировать рутину.</p>
+          </div>
+        </div>
+      </div>
+      <div class="kt-controls">
+        <button class="kt-ctrl-btn kt-prev" aria-label="Назад">&#8592;</button>
+        <button class="kt-ctrl-btn kt-next" aria-label="Вперед">&#8594;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 3: Интерактивный калькулятор -->
+  <section id="calculator" class="kt-section">
+    <h2>Сколько денег сжигает рутина</h2>
+    <p style="text-align: center; max-width: 600px; margin: 0 auto 3rem;">посчитайте: сколько компания переплачивает сотрудникам за механическое сведение таблиц вместо реальной аналитики.</p>
+    
+    <div class="kt-calc-box">
+      <div>
+        <div class="kt-slider-group">
+          <div class="kt-slider-label"><span>часов в неделю на отчеты:</span> <span id="valHours" style="color: var(--accent); font-weight: bold;">10 ч</span></div>
+          <input type="range" id="inpHours" class="kt-range" min="2" max="40" value="10">
+        </div>
+        <div class="kt-slider-group">
+          <div class="kt-slider-label"><span>стоимость часа сотрудника:</span> <span id="valRate" style="color: var(--accent); font-weight: bold;">1000 ₽</span></div>
+          <input type="range" id="inpRate" class="kt-range" min="500" max="5000" step="100" value="1000">
+        </div>
+      </div>
+      <div class="kt-calc-result">
+        <p style="margin-bottom: 0;">ежемесячные потери бизнеса:</p>
+        <div class="kt-calc-sum" id="resSum">40 000 ₽</div>
+        <p style="font-size: 0.95rem;">вайбкодинг сокращает это время на 80%. эти деньги можно инвестировать в развитие.</p>
+        <a href="#quiz" class="kt-btn kt-btn-outline" style="width: 100%; margin-top: 1rem;">Пройти тест</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 4: Умный Квиз -->
+  <section id="quiz" class="kt-section">
+    <h2>Проверьте уровень вашей автоматизации</h2>
+    <div class="kt-quiz" id="quizContainer">
+      <div class="kt-quiz-progress" id="quizProgress">
+        <div class="kt-progress-dot active" id="dot1"></div>
+        <div class="kt-progress-dot" id="dot2"></div>
+        <div class="kt-progress-dot" id="dot3"></div>
+      </div>
+
+      <!-- Вопрос 1 -->
+      <div class="kt-quiz-step active" id="step1">
+        <h3>как вы обычно собираете план-факт?</h3>
+        <button class="kt-quiz-opt" onclick="nextStep(1)">вручную копирую из разных файлов 1с и excel</button>
+        <button class="kt-quiz-opt" onclick="nextStep(2)">есть сложные формулы, но они часто слетают</button>
+        <button class="kt-quiz-opt" onclick="nextStep(3)">всё автоматизировано макросами или скриптами</button>
+      </div>
+
+      <!-- Вопрос 2 -->
+      <div class="kt-quiz-step" id="step2">
+        <h3>используете ли вы нейросети в работе отдела?</h3>
+        <button class="kt-quiz-opt" onclick="nextStep(1)">нет, даже не пробовали</button>
+        <button class="kt-quiz-opt" onclick="nextStep(2)">пробовали писать промпты, но выдает ерунду</button>
+        <button class="kt-quiz-opt" onclick="nextStep(3)">да, нейросети пишут нам сложные формулы</button>
+      </div>
+
+      <!-- Вопрос 3 -->
+      <div class="kt-quiz-step" id="step3">
+        <h3>что происходит, если добавляется новая статья расходов?</h3>
+        <button class="kt-quiz-opt" onclick="finishQuiz(1)">приходится переделывать половину отчетов</button>
+        <button class="kt-quiz-opt" onclick="finishQuiz(2)">нужно вручную протягивать формулы везде</button>
+        <button class="kt-quiz-opt" onclick="finishQuiz(3)">таблица плоская, данные подтягиваются сами</button>
+      </div>
+
+      <!-- Динамический результат -->
+      <div class="kt-quiz-step" id="stepResult" style="text-align: center;">
+        <h3 id="resTitle" style="font-size: 1.6rem; margin-bottom: 1rem;">диагноз загружается...</h3>
+        <p id="resText">описание результата.</p>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+          <a href="https://t.me/Ka_terina8" target="_blank" class="kt-btn">Написать мне</a>
+          <button class="kt-btn kt-btn-outline" onclick="resetQuiz()">Пройти еще раз</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 5: Видео -->
+  <section class="kt-section">
+    <h2>Как выглядит работающая система</h2>
+    <p style="text-align: center; max-width: 700px; margin: 0 auto 3rem;">демонстрация: сборка дашборда на основе плоских таблиц с применением скриптов, написанных нейросетью.</p>
+    <div class="kt-video-wrapper">
+      <iframe src="https://kinescope.io/embed/pYGbiiRYtyEAz3Z7YW3YcC" allow="autoplay; fullscreen; picture-in-picture; encrypted-media; gyroscope; accelerometer; clipboard-write; screen-wake-lock;" frameborder="0" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <div style="text-align:center; margin-top: 1rem;">
+      <a class="kt-btn kt-btn-outline kt-btn-small" href="https://kinescope.io/embed/pYGbiiRYtyEAz3Z7YW3YcC" target="_blank" rel="noopener noreferrer">Если видео не отображается — открыть отдельно</a>
+    </div>
+    <noscript>
+      <div style="max-width:900px; margin: 1rem auto 0;">
+        <img src="./assets/video-poster.jpg" alt="Превью видео" style="width:100%; border-radius:16px; border:1px solid rgba(0,230,118,0.15);" />
+      </div>
+    </noscript>
+  </section>
+
+  <!-- ЭКРАН 6: Карусель Отзывов -->
+  <section id="reviews" class="kt-section">
+    <h2>Отзывы клиентов</h2>
+    <div class="kt-carousel-component">
+      <div class="kt-carousel-wrapper">
+        <div class="kt-track">
+          <div class="kt-card">
+            <p>«катерина помогла нашему отделу уйти от многоэтажных формул в excel. теперь сборка отчета занимает 15 минут вместо двух дней рутины».</p>
+            <h3 style="margin-top: 2rem; margin-bottom: 0;">анна</h3>
+            <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0;">финансовый директор</p>
+          </div>
+          <div class="kt-card">
+            <p>«вайбкодинг оказался спасением. мы заставили нейросеть написать макрос, который сам подтягивает данные из 1с в нужный нам формат».</p>
+            <h3 style="margin-top: 2rem; margin-bottom: 0;">игорь</h3>
+            <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0;">собственник бизнеса</p>
+          </div>
+          <div class="kt-card">
+            <p>«наконец-то я вижу прозрачный дашборд. правильные плоские таблицы решили проблему вечно ломающихся ссылок между рабочими файлами».</p>
+            <h3 style="margin-top: 2rem; margin-bottom: 0;">мария</h3>
+            <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0;">старший экономист</p>
+          </div>
+          <div class="kt-card">
+            <p>«консультация окупилась в первую неделю. нашли ошибку в архитектуре учета, которая стоила нам регулярной потери важных данных».</p>
+            <h3 style="margin-top: 2rem; margin-bottom: 0;">сергей</h3>
+            <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 0;">руководитель отдела</p>
+          </div>
+        </div>
+      </div>
+      <div class="kt-controls">
+        <button class="kt-ctrl-btn kt-prev" aria-label="Назад">&#8592;</button>
+        <button class="kt-ctrl-btn kt-next" aria-label="Вперед">&#8594;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 7: FAQ (Аккордеон) -->
+  <section id="faq" class="kt-section">
+    <h2>Частые вопросы</h2>
+    <div class="kt-faq-box">
+      
+      <div class="kt-faq-item">
+        <button class="kt-faq-btn">
+          <span>нужен ли опыт программирования для вайбкодинга?</span>
+          <span class="kt-faq-icon">+</span>
+        </button>
+        <div class="kt-faq-content">
+          <p>нет, в этом и смысл. вы ставите задачу обычным языком, а искусственный интеллект сам пишет код. я учу, как правильно формулировать эти текстовые задачи, чтобы получать рабочий результат с первого раза.</p>
+        </div>
+      </div>
+
+      <div class="kt-faq-item">
+        <button class="kt-faq-btn">
+          <span>подойдут ли плоские таблицы для малого бизнеса?</span>
+          <span class="kt-faq-icon">+</span>
+        </button>
+        <div class="kt-faq-content">
+          <p>да, это идеальный формат. он позволяет легко масштабировать учет при росте компании без болезненного переписывания формул. начать внедрять их можно на любом этапе.</p>
+        </div>
+      </div>
+
+      <div class="kt-faq-item">
+        <button class="kt-faq-btn">
+          <span>безопасно ли отдавать финансовые данные нейросетям?</span>
+          <span class="kt-faq-icon">+</span>
+        </button>
+        <div class="kt-faq-content">
+          <p>мы не загружаем в нейросеть коммерческую тайну или реальные цифры. я показываю, как обезличивать структуру данных и генерировать универсальные скрипты, которые работают локально в вашем excel или google sheets.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ЭКРАН 8: Прайс -->
+  <section id="pricing" class="kt-section">
+    <h2>Стоимость услуг</h2>
+    <div class="kt-pricing">
+      
+      <div class="kt-price-card">
+        <h3>разовая консультация</h3>
+        <p>аудит текущей таблицы, поиск ошибок в формулах, советы по архитектуре.</p>
+        <div class="kt-price-val">15 000 ₽</div>
+        <ul style="flex-grow: 1;">
+          <li>видеозвонок 1.5 часа</li>
+          <li>ответы на ваши вопросы</li>
+          <li>запись встречи</li>
+        </ul>
+        <a href="https://t.me/Ka_terina8" target="_blank" class="kt-btn kt-btn-outline">Выбрать</a>
+      </div>
+
+      <div class="kt-price-card featured">
+        <h3 style="color: #fff;">настройка под ключ</h3>
+        <p>разработка архитектуры учета, написание скриптов через ai и создание дашборда.</p>
+        <div class="kt-price-val" style="color: var(--accent);">от 100 000 ₽</div>
+        <ul style="flex-grow: 1;">
+          <li>переход на плоские таблицы</li>
+          <li>автоматизация выгрузок</li>
+          <li>обучение сотрудника</li>
+        </ul>
+        <a href="https://t.me/Ka_terina8" target="_blank" class="kt-btn">Обсудить проект</a>
+      </div>
+
+      <div class="kt-price-card">
+        <h3>корпоративное обучение</h3>
+        <p>практический курс по вайбкодингу и работе с нейросетями для вашего ПЭО.</p>
+        <div class="kt-price-val">по запросу</div>
+        <ul style="flex-grow: 1;">
+          <li>адаптация под ваши данные</li>
+          <li>готовые промпты для отдела</li>
+          <li>сопровождение 1 месяц</li>
+        </ul>
+        <a href="https://t.me/Ka_terina8" target="_blank" class="kt-btn kt-btn-outline">Написать</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer class="kt-footer">
+    <div class="kt-footer-links">
+      <a href="#">политика конфиденциальности</a>
+      <a href="#">договор оферты</a>
+      <a href="https://t.me/Ka_terina8" target="_blank">telegram @Ka_terina8</a>
+    </div>
+    <p style="font-size: 0.95rem;">© 2026 Катерина. Все права защищены.</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // 1. Интерактивный калькулятор
+      const inpHours = document.getElementById('inpHours');
+      const inpRate = document.getElementById('inpRate');
+      const valHours = document.getElementById('valHours');
+      const valRate = document.getElementById('valRate');
+      const resSum = document.getElementById('resSum');
+
+      function calculateLosses() {
+        if(!inpHours || !inpRate) return;
+        const hours = parseInt(inpHours.value);
+        const rate = parseInt(inpRate.value);
+        
+        valHours.textContent = hours + ' ч';
+        valRate.textContent = rate.toLocaleString('ru-RU') + ' ₽';
+        
+        const monthlyLoss = hours * 4 * rate;
+        resSum.textContent = monthlyLoss.toLocaleString('ru-RU') + ' ₽';
+      }
+
+      if(inpHours) inpHours.addEventListener('input', calculateLosses);
+      if(inpRate) inpRate.addEventListener('input', calculateLosses);
+      calculateLosses();
+
+      // 2. Нативная карусель (CSS scroll-snap)
+      const carousels = document.querySelectorAll('.kt-carousel-component');
+      carousels.forEach(carousel => {
+        const track = carousel.querySelector('.kt-track');
+        const prevBtn = carousel.querySelector('.kt-prev');
+        const nextBtn = carousel.querySelector('.kt-next');
+
+        function scrollAmount() {
+          const card = track.querySelector('.kt-card');
+          const gap = parseInt(window.getComputedStyle(track).gap) || 0;
+          return card.offsetWidth + gap;
+        }
+
+        prevBtn.addEventListener('click', () => {
+          track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+          track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+        });
+      });
+
+      // 3. FAQ Аккордеон
+      const faqItems = document.querySelectorAll('.kt-faq-item');
+      faqItems.forEach(item => {
+        const btn = item.querySelector('.kt-faq-btn');
+        btn.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+          faqItems.forEach(i => i.classList.remove('active'));
+          if(!isActive) item.classList.add('active');
+        });
+      });
+
+    });
+
+    // 4. Логика Умного Квиза
+    let quizScore = 0;
+    let quizStep = 1;
+
+    function nextStep(points) {
+      quizScore += points;
+      document.getElementById(`step${quizStep}`).classList.remove('active');
+      quizStep++;
+      
+      const dot = document.getElementById(`dot${quizStep}`);
+      if(dot) dot.classList.add('active');
+      
+      document.getElementById(`step${quizStep}`).classList.add('active');
+    }
+
+    function finishQuiz(points) {
+      quizScore += points;
+      document.getElementById('step3').classList.remove('active');
+      
+      const resTitle = document.getElementById('resTitle');
+      const resText = document.getElementById('resText');
+
+      if (quizScore <= 5) {
+        resTitle.innerText = "диагноз: требуется полная пересборка";
+        resText.innerText = "вы теряете огромное количество времени на сборку отчетов. архитектура таблиц устарела и тормозит работу отдела. пора переходить на плоские базы и скрипты.";
+      } else if (quizScore <= 7) {
+        resTitle.innerText = "диагноз: база есть, не хватает вайбкодинга";
+        resText.innerText = "вы уже понимаете, как должен работать учет, но все еще делаете много ручной работы. внедрение нейросетей ускорит процесс в 3-4 раза.";
+      } else {
+        resTitle.innerText = "диагноз: отличный уровень цифровизации";
+        resText.innerText = "у вас прекрасный базис. макросы и плоские таблицы уже работают на вас. я могу помочь точечно: настроить сложные дашборды или обучить команду новым фишкам ai.";
+      }
+
+      document.getElementById('stepResult').classList.add('active');
+    }
+
+    function resetQuiz() {
+      quizScore = 0;
+      quizStep = 1;
+      
+      document.getElementById('stepResult').classList.remove('active');
+      document.getElementById('step2').classList.remove('active');
+      document.getElementById('step3').classList.remove('active');
+      document.getElementById('step1').classList.add('active');
+      
+      document.getElementById('dot2').classList.remove('active');
+      document.getElementById('dot3').classList.remove('active');
+    }
+  </script>
+</div>
+</body>
+</html>

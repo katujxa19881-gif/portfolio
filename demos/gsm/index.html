@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прототип · Веб-сервис учёта ГСМ — все экраны</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-slate-100 min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-2xl font-semibold text-slate-800 mb-1">Прототип · Веб-сервис учёта ГСМ</h1>
+    <p class="text-slate-500 mb-7">Учёт поездок, топлива и чеков · все экраны MVP. Кликните, чтобы открыть.</p>
+
+    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Вход и роли</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-7">
+      <a href="login.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">01 · Вход</a>
+      <a href="change-password.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">02 · Смена пароля</a>
+      <a href="role-home.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">03 · Главная по роли</a>
+    </div>
+
+    <h2 class="text-xs font-bold uppercase tracking-wider text-blue-500 mb-3">Водитель</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-7">
+      <a href="driver-trip-form.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">04 · Форма поездки</a>
+      <a href="driver-fuel-receipt.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">05 · Заправка и чек</a>
+      <a href="driver-records.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">06 · Мои записи</a>
+      <a href="driver-record-edit.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">07 · Редактирование записи</a>
+    </div>
+
+    <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-600 mb-3">Бухгалтер</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-7">
+      <a href="accountant-dashboard.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">08 · Дашборд</a>
+      <a href="accountant-registry.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">09 · Реестр поездок</a>
+      <a href="accountant-record-review.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">10 · Проверка записи</a>
+      <a href="discrepancies.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">11 · Расхождения</a>
+      <a href="missing-data.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">12 · Несданные данные</a>
+      <a href="receipts-archive.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">13 · Архив чеков</a>
+      <a href="month-close.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">14 · Закрытие месяца</a>
+      <a href="closed-period-corrections.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">15 · Корректировки периода</a>
+    </div>
+
+    <h2 class="text-xs font-bold uppercase tracking-wider text-amber-600 mb-3">Данные · импорт / экспорт</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-7">
+      <a href="fuel-csv-import.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">16 · Импорт топлива (CSV)</a>
+      <a href="import-errors.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">17 · Ошибки импорта</a>
+      <a href="peo-csv-export.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">18 · ПЭО · CSV-выгрузка</a>
+    </div>
+
+    <h2 class="text-xs font-bold uppercase tracking-wider text-violet-600 mb-3">Руководство и администрирование</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <a href="director-summary.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">19 · Директор · Сводка расходов</a>
+      <a href="directories.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">20 · Справочники</a>
+      <a href="users-roles.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">21 · Пользователи и роли</a>
+      <a href="technical-admin.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">22 · Техадмин</a>
+      <a href="access-denied.html" class="bg-white rounded-lg border border-slate-200 p-4 hover:border-blue-400">23 · Нет доступа</a>
+    </div>
+  </div>
+</body>
+</html>

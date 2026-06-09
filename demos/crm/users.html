@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сотрудники — CRM НПО ЦТС</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<div class="flex min-h-screen">
+  <aside class="w-56 bg-slate-900 text-slate-300 flex flex-col shrink-0">
+    <div class="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-bold text-xs">ЦТС</span>
+      <span class="font-semibold text-white text-sm">CRM отдела</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+      <a href="dashboard.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Дашборд</a>
+      <a href="customers-list.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Заказчики</a>
+      <a href="deals.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Сделки</a>
+      <a href="tasks.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Задачи</a>
+      <a href="reports.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Отчёты</a>
+      <a href="directories.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Справочники</a>
+      <a href="users.html" class="block rounded-lg px-3 py-2 bg-blue-600 text-white">Сотрудники</a>
+    </nav>
+  </aside>
+  <div class="flex-1 flex flex-col">
+    <header class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
+      <h1 class="text-lg font-semibold text-slate-800">Сотрудники</h1>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg px-4 py-2">+ Добавить сотрудника</button>
+    </header>
+    <main class="flex-1 p-6">
+      <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-slate-500 text-left">
+            <tr><th class="px-4 py-3 font-medium">ФИО</th><th class="px-4 py-3 font-medium">Логин</th><th class="px-4 py-3 font-medium">Роль</th><th class="px-4 py-3 font-medium">Город</th><th class="px-4 py-3 font-medium">Статус</th></tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr><td class="px-4 py-3 font-medium text-slate-800">Иванов И. И.</td><td class="px-4 py-3 text-slate-600">ivanov</td><td class="px-4 py-3 text-slate-600">Менеджер активных продаж</td><td class="px-4 py-3 text-slate-600">С-Пб</td><td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 rounded px-2 py-0.5">Активен</span></td></tr>
+            <tr><td class="px-4 py-3 font-medium text-slate-800">Петров П. П.</td><td class="px-4 py-3 text-slate-600">petrov</td><td class="px-4 py-3 text-slate-600">Менеджер проекта</td><td class="px-4 py-3 text-slate-600">Гусев</td><td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 rounded px-2 py-0.5">Активен</span></td></tr>
+            <tr><td class="px-4 py-3 font-medium text-slate-800">Смирнова Е. А.</td><td class="px-4 py-3 text-slate-600">smirnova</td><td class="px-4 py-3 text-slate-600">Договорник</td><td class="px-4 py-3 text-slate-600">Гусев</td><td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 rounded px-2 py-0.5">Активен</span></td></tr>
+            <tr><td class="px-4 py-3 font-medium text-slate-800">Козлов Д. С.</td><td class="px-4 py-3 text-slate-600">kozlov</td><td class="px-4 py-3 text-slate-600">Коммерческий директор</td><td class="px-4 py-3 text-slate-600">С-Пб</td><td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 rounded px-2 py-0.5">Активен</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

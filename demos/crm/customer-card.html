@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карточка заказчика — CRM НПО ЦТС</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}.tab-active{border-color:#2563eb;color:#2563eb}</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<div class="flex min-h-screen">
+  <aside class="w-56 bg-slate-900 text-slate-300 flex flex-col shrink-0">
+    <div class="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-bold text-xs">ЦТС</span>
+      <span class="font-semibold text-white text-sm">CRM отдела</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+      <a href="dashboard.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Дашборд</a>
+      <a href="customers-list.html" class="block rounded-lg px-3 py-2 bg-blue-600 text-white">Заказчики</a>
+      <a href="deals.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Сделки</a>
+      <a href="tasks.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Задачи</a>
+      <a href="reports.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Отчёты</a>
+      <a href="directories.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Справочники</a>
+      <a href="users.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Сотрудники</a>
+    </nav>
+  </aside>
+  <div class="flex-1 flex flex-col">
+    <header class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="customers-list.html" class="text-slate-400 hover:text-slate-600">←</a>
+        <h1 class="text-lg font-semibold text-slate-800">ООО «Телеком-Сервис»</h1>
+        <span class="text-xs font-medium bg-amber-100 text-amber-700 rounded px-2 py-0.5">Вип</span>
+      </div>
+      <a href="event-form.html" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg px-4 py-2">+ Событие</a>
+    </header>
+    <main class="flex-1 p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left: requisites -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5 space-y-3 text-sm">
+          <h2 class="font-semibold text-slate-700 mb-2">Реквизиты</h2>
+          <div class="flex justify-between"><span class="text-slate-500">ИНН</span><span class="text-slate-800">7801234567</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Отрасль</span><span class="text-slate-800">Телеком</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Тип продукции</span><span class="text-slate-800">Коммутаторы</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Обороты СБИС</span><span class="text-slate-800">120 млн ₽</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Конкуренты</span><span class="text-slate-800">КомпТех</span></div>
+          <div class="flex justify-between"><span class="text-slate-500">Ответственный</span><span class="text-slate-800">Иванов И. И.</span></div>
+          <div class="pt-2 border-t border-slate-100 flex gap-2">
+            <span class="text-xs bg-green-100 text-green-700 rounded px-2 py-0.5">ЭДО</span>
+            <span class="text-xs bg-green-100 text-green-700 rounded px-2 py-0.5">NDA</span>
+            <span class="text-xs bg-slate-100 text-slate-400 rounded px-2 py-0.5">Рамка</span>
+          </div>
+          <div class="pt-3 border-t border-slate-100">
+            <h3 class="font-medium text-slate-600 mb-2">Контактные лица</h3>
+            <div class="text-slate-700">Сидоров А. В. <span class="text-xs bg-blue-100 text-blue-700 rounded px-1.5 py-0.5 ml-1">ЛПР</span></div>
+            <div class="text-xs text-slate-400">+7 921 000-00-00 · a.sidorov@telecom.ru</div>
+          </div>
+        </div>
+        <!-- Right: tabs -->
+        <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200">
+          <div class="flex gap-1 border-b border-slate-200 px-4 text-sm">
+            <button class="px-3 py-3 border-b-2 tab-active font-medium">Лог событий</button>
+            <button class="px-3 py-3 border-b-2 border-transparent text-slate-500">Запросы</button>
+            <button class="px-3 py-3 border-b-2 border-transparent text-slate-500">Заказы</button>
+            <button class="px-3 py-3 border-b-2 border-transparent text-slate-500">Договора</button>
+          </div>
+          <div class="p-5 space-y-4 text-sm">
+            <div class="flex gap-3">
+              <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs shrink-0">КП</div>
+              <div>
+                <div class="font-medium text-slate-800">Отправлено КП</div>
+                <div class="text-slate-500">Сумма 1 250 000 ₽ · файл КП-0425.pdf</div>
+                <div class="text-xs text-slate-400 mt-1">28.05.2026 · Иванов И. И.</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs shrink-0">☎</div>
+              <div>
+                <div class="font-medium text-slate-800">Звонок</div>
+                <div class="text-slate-500">Обсудили техзадание, ждут КП. Плановый контакт: 31.05</div>
+                <div class="text-xs text-slate-400 mt-1">25.05.2026 · Иванов И. И.</div>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="w-9 h-9 rounded-full bg-violet-100 text-violet-700 flex items-center justify-center text-xs shrink-0">≡</div>
+              <div>
+                <div class="font-medium text-slate-800">Запрос на просчёт</div>
+                <div class="text-slate-500">Коммутаторы, 50 шт. Исходное письмо во вложении.</div>
+                <div class="text-xs text-slate-400 mt-1">22.05.2026 · Иванов И. И.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

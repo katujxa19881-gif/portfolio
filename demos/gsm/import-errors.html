@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ошибки импорта</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body class="bg-slate-50">
+<!-- Экран 13: Ошибки импорта -->
+
+<main class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="border-b border-slate-200 bg-white">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+      <div>
+        <p class="text-sm text-slate-500">Импорт CSV · fuel_cards_may_2026.csv</p>
+        <h1 class="mt-1 text-xl font-semibold text-slate-950">Ошибки импорта</h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a
+          href="/accountant/import/"
+          class="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
+          Вернуться к импорту
+        </a>
+        <a
+          href="/accountant/discrepancies/"
+          class="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm font-medium text-amber-900 hover:bg-amber-100"
+        >
+          Открыть расхождения
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+    <div class="rounded-md border border-amber-200 bg-amber-50 p-4 sm:p-5">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <p class="text-sm font-medium text-amber-900">Импорт завершён с ошибками</p>
+          <h2 class="mt-1 text-2xl font-semibold text-slate-950">4 строки требуют проверки</h2>
+          <p class="mt-2 max-w-3xl text-sm leading-6 text-amber-900">
+            Исправьте файл или справочники, затем повторите импорт. Несопоставленные операции можно разобрать в реестре расхождений.
+          </p>
+        </div>
+
+        <a
+          href="/accountant/import/errors/download/"
+          class="inline-flex justify-center rounded-md bg-amber-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-amber-800"
+        >
+          Скачать ошибки CSV
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-5 grid gap-4 sm:grid-cols-4">
+      <div class="rounded-md border border-slate-200 bg-white p-4">
+        <p class="text-sm text-slate-500">Всего строк</p>
+        <p class="mt-1 text-2xl font-semibold text-slate-950">42</p>
+      </div>
+
+      <div class="rounded-md border border-emerald-200 bg-emerald-50 p-4">
+        <p class="text-sm text-emerald-800">Импортировано</p>
+        <p class="mt-1 text-2xl font-semibold text-emerald-900">38</p>
+      </div>
+
+      <div class="rounded-md border border-amber-200 bg-amber-50 p-4">
+        <p class="text-sm text-amber-800">Ошибки</p>
+        <p class="mt-1 text-2xl font-semibold text-amber-900">4</p>
+      </div>
+
+      <div class="rounded-md border border-red-200 bg-red-50 p-4">
+        <p class="text-sm text-red-700">Критичные</p>
+        <p class="mt-1 text-2xl font-semibold text-red-800">2</p>
+      </div>
+    </div>
+
+    <div class="mt-5 grid gap-5 lg:grid-cols-[1fr_360px]">
+      <div class="space-y-5">
+        <form
+          method="get"
+          hx-get="/accountant/import/errors/"
+          hx-target="#errors-table"
+          class="rounded-md border border-slate-200 bg-white p-4"
+        >
+          <div class="grid gap-3 md:grid-cols-4">
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Тип ошибки</span>
+              <select name="error_type" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+                <option>Все ошибки</option>
+                <option>Неверный формат</option>
+                <option>Нет обязательной колонки</option>
+                <option>Дубль</option>
+                <option>Не найдено сопоставление</option>
+              </select>
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Критичность</span>
+              <select name="severity" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm">
+                <option>Все</option>
+                <option>Критичная</option>
+                <option>Предупреждение</option>
+              </select>
+            </label>
+
+            <label class="block">
+              <span class="mb-1.5 block text-sm font-medium text-slate-700">Строка</span>
+              <input
+                name="row"
+                type="number"
+                placeholder="Например: 17"
+                class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm"
+              />
+            </label>
+
+            <div class="flex items-end">
+              <button
+                type="submit"
+                class="w-full rounded-md bg-slate-950 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+              >
+                Применить
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <section id="errors-table" class="overflow-hidden rounded-md border border-slate-200 bg-white">
+          <div class="border-b border-slate-200 px-4 py-3">
+            <h2 class="text-base font-semibold text-slate-950">Проблемные строки</h2>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-[980px] w-full text-left text-sm">
+              <thead class="bg-slate-50 text-xs font-semibold uppercase text-slate-500">
+                <tr>
+                  <th class="px-4 py-3">Строка</th>
+                  <th class="px-4 py-3">Тип ошибки</th>
+                  <th class="px-4 py-3">Причина</th>
+                  <th class="px-4 py-3">Исходные значения</th>
+                  <th class="px-4 py-3">Что сделать</th>
+                  <th class="px-4 py-3"></th>
+                </tr>
+              </thead>
+
+              <tbody class="divide-y divide-slate-200">
+                <tr class="bg-red-50">
+                  <td class="px-4 py-4 font-semibold text-red-800">17</td>
+                  <td class="px-4 py-4">
+                    <span class="rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
+                      не найдено сопоставление
+                    </span>
+                  </td>
+                  <td class="px-4 py-4 text-red-800">Госномер не найден в справочнике машин</td>
+                  <td class="px-4 py-4">
+                    <p>21.05.2026 14:31 · карта **** 7720</p>
+                    <p class="mt-1 text-slate-500">ДТ · 33,55 л · 2 180,50 ₽ · Газпромнефть</p>
+                  </td>
+                  <td class="px-4 py-4">Проверить госномер или привязку карты к машине</td>
+                  <td class="px-4 py-4 text-right">
+                    <a href="/accountant/import/errors/17/" class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50">
+                      Открыть строку
+                    </a>
+                  </td>
+                </tr>
+
+                <tr class="bg-amber-50">
+                  <td class="px-4 py-4 font-semibold text-amber-900">21</td>
+                  <td class="px-4 py-4">
+                    <span class="rounded-md bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900">
+                      неверный формат
+                    </span>
+                  </td>
+                  <td class="px-4 py-4 text-amber-900">Дата записана в неподдерживаемом формате</td>
+                  <td class="px-4 py-4">
+                    <p>24/05/26 17-42 · А124ВС 39 · карта **** 2841</p>
+                    <p class="mt-1 text-slate-500">ДТ · 38,40 л · 2 496,00 ₽</p>
+                  </td>
+                  <td class="px-4 py-4">Исправить дату на формат 2026-05-24 17:42</td>
+                  <td class="px-4 py-4 text-right">
+                    <a href="/accountant/import/errors/21/" class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50">
+                      Открыть строку
+                    </a>
+                  </td>
+                </tr>
+
+                <tr class="bg-red-50">
+                  <td class="px-4 py-4 font-semibold text-red-800">28</td>
+                  <td class="px-4 py-4">
+                    <span class="rounded-md bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
+                      неверный формат
+                    </span>
+                  </td>
+                  <td class="px-4 py-4 text-red-800">Сумма операции пустая</td>
+                  <td class="px-4 py-4">
+                    <p>25.05.2026 09:12 · М582КТ 39 · карта **** 1190</p>
+                    <p class="mt-1 text-slate-500">АИ-95 · 12,10 л · сумма пустая</p>
+                  </td>
+                  <td class="px-4 py-4">Заполнить сумму из кабинета топливного оператора</td>
+                  <td class="px-4 py-4 text-right">
+                    <a href="/accountant/import/errors/28/" class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50">
+                      Открыть строку
+                    </a>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="px-4 py-4 font-semibold text-slate-950">31</td>
+                  <td class="px-4 py-4">
+                    <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
+                      дубль
+                    </span>
+                  </td>
+                  <td class="px-4 py-4">Такая операция уже была импортирована</td>
+                  <td class="px-4 py-4">
+                    <p>24.05.2026 17:42 · А124ВС 39 · карта **** 2841</p>
+                    <p class="mt-1 text-slate-500">ДТ · 38,40 л · 2 496,00 ₽ · Лукойл</p>
+                  </td>
+                  <td class="px-4 py-4">Проверить файл и не импортировать дубль повторно</td>
+                  <td class="px-4 py-4 text-right">
+                    <a href="/accountant/import/errors/31/" class="rounded-md border border-slate-300 px-3 py-2 font-medium hover:bg-slate-50">
+                      Открыть строку
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <aside class="space-y-5">
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Файл импорта</h2>
+
+          <dl class="mt-4 space-y-3 text-sm">
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Файл</dt>
+              <dd class="font-medium text-slate-950">fuel_cards_may_2026.csv</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Загружен</dt>
+              <dd class="font-medium text-slate-950">24.05.2026 18:05</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Загрузил</dt>
+              <dd class="font-medium text-slate-950">Елена Соколова</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-slate-500">Статус</dt>
+              <dd class="font-medium text-amber-900">с ошибками</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="rounded-md border border-slate-200 bg-white p-4 sm:p-5">
+          <h2 class="text-base font-semibold text-slate-950">Что дальше</h2>
+
+          <ul class="mt-4 space-y-2 text-sm text-slate-600">
+            <li>Исправить формат даты и пустые суммы в CSV</li>
+            <li>Проверить госномер или справочник машин</li>
+            <li>Повторить импорт файла</li>
+            <li>Несопоставленные операции разобрать в реестре расхождений</li>
+          </ul>
+
+          <div class="mt-5 flex flex-col gap-2">
+            <a
+              href="/accountant/import/"
+              class="inline-flex justify-center rounded-md bg-slate-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800"
+            >
+              Вернуться к импорту
+            </a>
+            <a
+              href="/accountant/discrepancies/"
+              class="inline-flex justify-center rounded-md border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm font-medium text-amber-900 hover:bg-amber-100"
+            >
+              Открыть расхождения
+            </a>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </section>
+</main>
+  <script>
+    (function () {
+      const routes = {
+        '/': 'login.html',
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/home/': 'role-home.html',
+        '/logout/': 'login.html',
+        '/access/request/': 'access-denied.html',
+        '/driver/': 'driver-trip-form.html',
+        '/driver/trips/new/': 'driver-trip-form.html',
+        '/driver/trips/new/fuel/': 'driver-fuel-receipt.html',
+        '/driver/trips/103/fuel/': 'driver-fuel-receipt.html',
+        '/driver/records/': 'driver-records.html',
+        '/driver/records/101/': 'driver-records.html',
+        '/driver/records/102/': 'driver-records.html',
+        '/driver/records/104/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-record-edit.html',
+        '/accountant/': 'accountant-dashboard.html',
+        '/accountant/registry/': 'accountant-registry.html',
+        '/accountant/registry/?page=1': 'accountant-registry.html',
+        '/accountant/registry/?page=2': 'accountant-registry.html',
+        '/accountant/registry/?driver=ivanov&vehicle=a124bc39': 'accountant-registry.html',
+        '/accountant/records/new/': 'accountant-registry.html',
+        '/accountant/records/101/': 'accountant-record-review.html',
+        '/accountant/records/102/': 'accountant-record-review.html',
+        '/accountant/records/103/': 'accountant-record-review.html',
+        '/accountant/records/104/': 'accountant-record-review.html',
+        '/accountant/records/88/': 'accountant-record-review.html',
+        '/accountant/records/103/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/records/104/mark-checked/': 'accountant-registry.html',
+        '/accountant/records/104/ready-for-export/': 'accountant-registry.html',
+        '/accountant/records/104/return-to-driver/': 'driver-record-edit.html',
+        '/accountant/receipts/': 'receipts-archive.html',
+        '/accountant/receipts/498/': 'receipts-archive.html',
+        '/accountant/receipts/501/': 'receipts-archive.html',
+        '/accountant/receipts/500/download/': 'receipts-archive.html',
+        '/accountant/receipts/501/download/': 'receipts-archive.html',
+        '/accountant/import/': 'fuel-csv-import.html',
+        '/accountant/import/errors/': 'import-errors.html',
+        '/accountant/import/errors/17/': 'import-errors.html',
+        '/accountant/import/errors/21/': 'import-errors.html',
+        '/accountant/import/errors/28/': 'import-errors.html',
+        '/accountant/import/errors/31/': 'import-errors.html',
+        '/accountant/import/errors/download/': 'import-errors.html',
+        '/accountant/discrepancies/': 'discrepancies.html',
+        '/accountant/discrepancies/?type=receipt': 'discrepancies.html',
+        '/accountant/discrepancies/?type=route': 'discrepancies.html',
+        '/accountant/missing/': 'missing-data.html',
+        '/accountant/directories/': 'directories.html',
+        '/accountant/directories/?tab=vehicles': 'directories.html',
+        '/accountant/directories/?tab=drivers': 'directories.html',
+        '/accountant/directories/?tab=departments': 'directories.html',
+        '/accountant/directories/?tab=fuel': 'directories.html',
+        '/accountant/directories/?tab=costs': 'directories.html',
+        '/accountant/directories/?tab=periods': 'directories.html',
+        '/accountant/directories/vehicles/new/': 'directories.html',
+        '/accountant/directories/drivers/new/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/': 'directories.html',
+        '/accountant/directories/vehicles/a124bc39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/m582kt39/deactivate/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/edit/': 'directories.html',
+        '/accountant/directories/vehicles/k771or39/deactivate/': 'directories.html',
+        '/accountant/users/': 'users-roles.html',
+        '/accountant/users/new/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/edit/': 'users-roles.html',
+        '/accountant/users/ivanov.driver/reset-password/': 'users-roles.html',
+        '/accountant/users/sokolova.acc/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/edit/': 'users-roles.html',
+        '/accountant/users/kovaleva.peo/temp-password/': 'users-roles.html',
+        '/accountant/users/morozov.director/edit/': 'users-roles.html',
+        '/accountant/users/temp-password/': 'users-roles.html',
+        '/accountant/month-close/': 'month-close.html',
+        '/accountant/corrections/': 'closed-period-corrections.html',
+        '/accountant/corrections/new/': 'closed-period-corrections.html',
+        '/peo/export/': 'peo-csv-export.html',
+        '/peo/export/columns/': 'peo-csv-export.html',
+        '/exports/peo_transport_may_2026.csv': 'peo-csv-export.html',
+        '/director/summary/': 'director-summary.html',
+        '/director/discrepancies/': 'discrepancies.html',
+        '/tech/': 'technical-admin.html',
+        '/tech/diagnostics/': 'technical-admin.html'
+      };
+
+      const submitRoutes = {
+        '/login/': 'role-home.html',
+        '/password/change/': 'role-home.html',
+        '/driver/trips/new/': 'driver-records.html',
+        '/driver/trips/new/fuel/': 'driver-records.html',
+        '/driver/records/103/edit/': 'driver-records.html',
+        '/accountant/import/': 'discrepancies.html',
+        '/accountant/corrections/new/': 'month-close.html'
+      };
+
+      function normalizeRoute(value) {
+        if (!value) return null;
+        if (value.startsWith('/')) {
+          try {
+            const url = new URL(value, 'https://prototype.local');
+            return url.pathname + url.search;
+          } catch (error) {
+            return value;
+          }
+        }
+        try {
+          const url = new URL(value, window.location.href);
+          if (url.protocol === 'file:') return null;
+          return url.pathname + url.search;
+        } catch (error) {
+          return value;
+        }
+      }
+
+      function go(route, map) {
+        const fallbackRoute = route ? route.replace(/\?.*$/, '') : route;
+        const target = map[route] || map[fallbackRoute];
+        if (!target) return false;
+        window.location.href = target;
+        return true;
+      }
+
+      document.addEventListener('click', function (event) {
+        const button = event.target.closest('button[hx-get], button[hx-post]');
+        if (button && !button.disabled) {
+          const route = normalizeRoute(button.getAttribute('hx-get') || button.getAttribute('hx-post'));
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+        }
+
+        const link = event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (href && href.startsWith('/')) {
+          const route = normalizeRoute(href);
+          if (go(route, routes)) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }
+      }, true);
+
+      document.addEventListener('submit', function (event) {
+        const form = event.target;
+        const route = normalizeRoute(form.getAttribute('hx-post') || form.getAttribute('hx-get') || form.getAttribute('action'));
+        if (go(route, submitRoutes) || go(route, routes)) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>

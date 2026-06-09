@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Задачи — CRM НПО ЦТС</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif}</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<div class="flex min-h-screen">
+  <aside class="w-56 bg-slate-900 text-slate-300 flex flex-col shrink-0">
+    <div class="px-5 py-4 border-b border-slate-800 flex items-center gap-2">
+      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white font-bold text-xs">ЦТС</span>
+      <span class="font-semibold text-white text-sm">CRM отдела</span>
+    </div>
+    <nav class="flex-1 px-3 py-4 space-y-1 text-sm">
+      <a href="dashboard.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Дашборд</a>
+      <a href="customers-list.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Заказчики</a>
+      <a href="deals.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Сделки</a>
+      <a href="tasks.html" class="block rounded-lg px-3 py-2 bg-blue-600 text-white">Задачи</a>
+      <a href="reports.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Отчёты</a>
+      <a href="directories.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Справочники</a>
+      <a href="users.html" class="block rounded-lg px-3 py-2 hover:bg-slate-800">Сотрудники</a>
+    </nav>
+  </aside>
+  <div class="flex-1 flex flex-col">
+    <header class="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
+      <h1 class="text-lg font-semibold text-slate-800">Задачи</h1>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg px-4 py-2">+ Новая задача</button>
+    </header>
+    <main class="flex-1 p-6">
+      <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-50 text-slate-500 text-left">
+            <tr>
+              <th class="px-4 py-3 font-medium">Задача</th>
+              <th class="px-4 py-3 font-medium">Заказчик</th>
+              <th class="px-4 py-3 font-medium">Исполнитель</th>
+              <th class="px-4 py-3 font-medium">Срок</th>
+              <th class="px-4 py-3 font-medium">Статус</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr class="bg-red-50">
+              <td class="px-4 py-3 font-medium text-slate-800">Узнать ОС по КП 🔔</td>
+              <td class="px-4 py-3 text-slate-600">ООО «Телеком-Сервис»</td>
+              <td class="px-4 py-3 text-slate-600">Иванов И. И.</td>
+              <td class="px-4 py-3 text-red-700 font-medium">31.05 · просрочена</td>
+              <td class="px-4 py-3"><span class="text-xs bg-amber-100 text-amber-700 rounded px-2 py-0.5">В работе</span></td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium text-slate-800">Подготовить КП</td>
+              <td class="px-4 py-3 text-slate-600">ООО «КИПиА-Монтаж»</td>
+              <td class="px-4 py-3 text-slate-600">Петров П. П.</td>
+              <td class="px-4 py-3 text-slate-600">02.06</td>
+              <td class="px-4 py-3"><span class="text-xs bg-slate-100 text-slate-600 rounded px-2 py-0.5">Новая</span></td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium text-slate-800">Старт новой воронки 🔔</td>
+              <td class="px-4 py-3 text-slate-600">ПАО «СвязьИнвест»</td>
+              <td class="px-4 py-3 text-slate-600">Ком. директор</td>
+              <td class="px-4 py-3 text-slate-600">03.06</td>
+              <td class="px-4 py-3"><span class="text-xs bg-slate-100 text-slate-600 rounded px-2 py-0.5">Новая</span></td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3 font-medium text-slate-400 line-through">Загрузить договор NDA</td>
+              <td class="px-4 py-3 text-slate-400">АО «ВычТех»</td>
+              <td class="px-4 py-3 text-slate-400">Договорник</td>
+              <td class="px-4 py-3 text-slate-400">29.05</td>
+              <td class="px-4 py-3"><span class="text-xs bg-green-100 text-green-700 rounded px-2 py-0.5">Выполнена</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-400 mt-3">🔔 — задача создана автоматически по правилам воронки.</p>
+    </main>
+  </div>
+</div>
+</body>
+</html>
