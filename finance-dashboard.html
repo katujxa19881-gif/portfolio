@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Финансовый дашборд — ООО «Меридиан»</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#0d1b2a;
+  --paper:#f5f3ee;
+  --panel:#ffffff;
+  --line:#e3ded3;
+  --muted:#6b7280;
+  --teal:#0f766e;
+  --teal-soft:#5e9d94;
+  --gold:#b8860b;
+  --coral:#c1544a;
+  --grid:#eceae3;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  padding:32px 28px 60px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1240px;margin:0 auto}
+
+/* header */
+.head{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  border-bottom:2px solid var(--ink);
+  padding-bottom:18px;margin-bottom:6px;
+}
+.head .mark{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:8px}
+.head h1{font-size:30px;font-weight:800;letter-spacing:-.5px;font-family:Georgia,'Times New Roman',serif}
+.head h1 span{color:var(--muted);font-weight:400}
+.head .meta{text-align:right;font-size:12px;color:var(--muted);line-height:1.7}
+.head .meta b{color:var(--ink);display:block;font-size:13px}
+.updated{font-size:11px;color:var(--muted);margin:10px 0 26px;letter-spacing:.02em}
+.updated .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:6px;vertical-align:middle}
+
+/* controls */
+.controls{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.controls button{
+  font:inherit;font-size:12px;font-weight:600;
+  padding:8px 16px;border:1px solid var(--line);background:var(--panel);
+  color:var(--muted);border-radius:2px;cursor:pointer;transition:.15s;letter-spacing:.02em;
+}
+.controls button:hover{border-color:var(--teal-soft);color:var(--ink)}
+.controls button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* kpi row */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:18px 20px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal)}
+.kpi.gold::before{background:var(--gold)}
+.kpi.coral::before{background:var(--coral)}
+.kpi .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px}
+.kpi .val{font-size:27px;font-weight:800;letter-spacing:-.5px;font-family:Georgia,serif}
+.kpi .val small{font-size:15px;font-weight:600;color:var(--muted)}
+.kpi .chg{font-size:12px;margin-top:8px;font-weight:600}
+.chg.up{color:var(--teal)}
+.chg.down{color:var(--coral)}
+.chg .arw{font-size:10px}
+
+/* grid */
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px}
+.grid.two{grid-template-columns:1fr 1fr}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:20px 22px}
+.card h2{font-size:14px;font-weight:700;margin-bottom:2px;letter-spacing:.01em}
+.card .sub{font-size:11px;color:var(--muted);margin-bottom:18px}
+.chartbox{position:relative;height:280px}
+.chartbox.sm{height:230px}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line)}
+.tbl th.r,.tbl td.r{text-align:right;font-variant-numeric:tabular-nums}
+.tbl td{padding:10px 10px;border-bottom:1px solid var(--grid)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .name{font-weight:600}
+.bar{height:5px;border-radius:3px;background:var(--teal);margin-top:5px}
+.pos{color:var(--teal);font-weight:600}
+.neg{color:var(--coral);font-weight:600}
+
+.foot{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.foot b{color:var(--ink)}
+
+@media(max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid,.grid.two{grid-template-columns:1fr}
+  .head{flex-direction:column;align-items:flex-start;gap:14px}
+  .head .meta{text-align:left}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div>
+      <div class="mark">Финансовая аналитика · Q1–Q4</div>
+      <h1>ООО «Меридиан» <span>/ управленческий дашборд</span></h1>
+    </div>
+    <div class="meta">
+      <b>Отчётный период: 2025</b>
+      Валюта: рубли (₽), тыс.<br>
+      Источник: 1С · выгрузка P&L
+    </div>
+  </div>
+  <div class="updated"><span class="dot"></span>Данные обновлены автоматически · демонстрационный набор</div>
+
+  <div class="controls" id="controls">
+    <button data-p="year" class="on">Год</button>
+    <button data-p="h1">1-е полугодие</button>
+    <button data-p="h2">2-е полугодие</button>
+    <button data-p="q4">IV квартал</button>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Выручка и чистая прибыль</h2>
+      <div class="sub">Помесячная динамика, тыс. ₽</div>
+      <div class="chartbox"><canvas id="revChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Структура расходов</h2>
+      <div class="sub">Доля статей за период</div>
+      <div class="chartbox"><canvas id="expChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <h2>Движение денежных средств</h2>
+      <div class="sub">Приток / отток / чистый поток, тыс. ₽</div>
+      <div class="chartbox sm"><canvas id="cfChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Выручка по направлениям</h2>
+      <div class="sub">Топ-сегменты за период</div>
+      <table class="tbl" id="segTbl"></table>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span><b>Екатерина</b> · финансовый аналитик + автоматизация · дашборды, отчётность, боты</span>
+    <span>Демо-проект для портфолио · данные вымышлены</span>
+  </div>
+
+</div>
+
+<script>
+// ---- demo data ----
+const months=['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+const revenue=[4120,3980,4610,4890,5230,5010,4780,5340,5910,6120,6480,7240];
+const profit =[610,540,720,810,940,870,760,980,1180,1240,1360,1610];
+const inflow =[4300,4050,4720,5010,5380,5120,4900,5500,6080,6300,6650,7480];
+const outflow=[3690,3510,4000,4200,4440,4250,4140,4520,4900,5060,5290,5870];
+
+const expenses={
+  'Себестоимость':41,'ФОТ':24,'Аренда и содержание':11,
+  'Маркетинг':9,'Логистика':7,'Налоги и сборы':5,'Прочее':3
+};
+const segments=[
+  {name:'Оптовые продажи',val:38,d:6.2},
+  {name:'Розница',val:27,d:3.1},
+  {name:'Онлайн-канал',val:21,d:12.4},
+  {name:'Услуги / сервис',val:9,d:-2.3},
+  {name:'Партнёрская сеть',val:5,d:1.8},
+];
+
+const periods={
+  year:{r:[0,12],lbl:'за 2025 год'},
+  h1:{r:[0,6],lbl:'за 1-е полугодие'},
+  h2:{r:[6,12],lbl:'за 2-е полугодие'},
+  q4:{r:[9,12],lbl:'за IV квартал'},
+};
+
+const fmt=n=>n.toLocaleString('ru-RU');
+const sum=(a,[s,e])=>a.slice(s,e).reduce((x,y)=>x+y,0);
+
+// ---- KPIs ----
+function renderKpis(p){
+  const rg=periods[p].r;
+  const rev=sum(revenue,rg), pr=sum(profit,rg);
+  const inf=sum(inflow,rg), out=sum(outflow,rg);
+  const margin=(pr/rev*100);
+  const netcf=inf-out;
+  // pseudo period-over-period
+  const rr=rg[1]-rg[0];
+  const prevRev=rg[0]-rr>=0?sum(revenue,[rg[0]-rr,rg[0]]):rev*0.88;
+  const growth=((rev-prevRev)/prevRev*100);
+  const k=[
+    {lbl:'Выручка',val:fmt(Math.round(rev)),unit:'тыс ₽',chg:growth,cls:''},
+    {lbl:'Чистая прибыль',val:fmt(Math.round(pr)),unit:'тыс ₽',chg:growth*1.3,cls:'gold'},
+    {lbl:'Рентабельность',val:margin.toFixed(1),unit:'%',chg:2.4,cls:'gold'},
+    {lbl:'Чистый ден. поток',val:fmt(Math.round(netcf)),unit:'тыс ₽',chg:netcf>0?8.1:-4.2,cls:netcf>0?'':'coral'},
+  ];
+  document.getElementById('kpis').innerHTML=k.map(x=>`
+    <div class="kpi ${x.cls}">
+      <div class="lbl">${x.lbl}</div>
+      <div class="val">${x.val} <small>${x.unit}</small></div>
+      <div class="chg ${x.chg>=0?'up':'down'}">
+        <span class="arw">${x.chg>=0?'▲':'▼'}</span> ${Math.abs(x.chg).toFixed(1)}% к пред. периоду
+      </div>
+    </div>`).join('');
+}
+
+// ---- segment table ----
+function renderSeg(){
+  const max=Math.max(...segments.map(s=>s.val));
+  document.getElementById('segTbl').innerHTML=`
+    <thead><tr><th>Направление</th><th class="r">Доля</th><th class="r">Динамика</th></tr></thead>
+    <tbody>${segments.map(s=>`
+      <tr>
+        <td class="name">${s.name}<div class="bar" style="width:${s.val/max*100}%"></div></td>
+        <td class="r">${s.val}%</td>
+        <td class="r ${s.d>=0?'pos':'neg'}">${s.d>=0?'+':''}${s.d}%</td>
+      </tr>`).join('')}</tbody>`;
+}
+
+// ---- charts ----
+let revChart,expChart,cfChart;
+const palette=['#0f766e','#b8860b','#c1544a','#5e9d94','#8a8577','#c9a24b','#a3bfba'];
+Chart.defaults.font.family="'Segoe UI',system-ui,sans-serif";
+Chart.defaults.font.size=11;
+Chart.defaults.color='#6b7280';
+
+function slice(arr,p){const[s,e]=periods[p].r;return arr.slice(s,e)}
+function labs(p){const[s,e]=periods[p].r;return months.slice(s,e)}
+
+function buildCharts(p){
+  const grid={color:'#eceae3'};
+  revChart=new Chart(revChart_ctx,{
+    type:'bar',
+    data:{labels:labs(p),datasets:[
+      {label:'Выручка',data:slice(revenue,p),backgroundColor:'#0f766e',borderRadius:3,order:2},
+      {type:'line',label:'Чистая прибыль',data:slice(profit,p),borderColor:'#b8860b',backgroundColor:'#b8860b',borderWidth:2.5,tension:.35,pointRadius:3,pointBackgroundColor:'#b8860b',order:1}
+    ]},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:16,usePointStyle:true}}},
+      scales:{y:{grid,ticks:{callback:v=>fmt(v)}},x:{grid:{display:false}}}}
+  });
+  expChart=new Chart(expChart_ctx,{
+    type:'doughnut',
+    data:{labels:Object.keys(expenses),datasets:[{data:Object.values(expenses),backgroundColor:palette,borderColor:'#fff',borderWidth:2}]},
+    options:{maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{boxWidth:10,padding:10,font:{size:10.5},usePointStyle:true}},
+      tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}}}
+  });
+  cfChart=new Chart(cfChart_ctx,{
+    type:'bar',
+    data:{labels:labs(p),datasets:[
+      {label:'Приток',data:slice(inflow,p),backgroundColor:'#5e9d94',borderRadius:2},
+      {label:'Отток',data:slice(outflow,p).map(v=>-v),backgroundColor:'#c1544a',borderRadius:2},
+      {type:'line',label:'Чистый поток',data:slice(inflow,p).map((v,i)=>v-slice(outflow,p)[i]),borderColor:'#0d1b2a',borderWidth:2,tension:.3,pointRadius:2}
+    ]},
+    options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:14,usePointStyle:true}},
+      tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${fmt(Math.abs(c.parsed.y))} тыс ₽`}}},
+      scales:{y:{grid,ticks:{callback:v=>fmt(Math.abs(v))}},x:{grid:{display:false},stacked:false}}}
+  });
+}
+let revChart_ctx,expChart_ctx,cfChart_ctx;
+
+function refresh(p){
+  renderKpis(p);
+  [revChart,expChart,cfChart].forEach(c=>c&&c.destroy());
+  buildCharts(p);
+}
+
+// init
+window.addEventListener('DOMContentLoaded',()=>{
+  revChart_ctx=document.getElementById('revChart');
+  expChart_ctx=document.getElementById('expChart');
+  cfChart_ctx=document.getElementById('cfChart');
+  renderSeg();
+  refresh('year');
+  document.querySelectorAll('#controls button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#controls button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      refresh(b.dataset.p);
+    });
+  });
+});
+</script>
+</body>
+</html>
