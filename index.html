@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Мои работы · Вайбкодинг</title>
+<title>Шуляк Екатерина · Автоматизация и финансовая аналитика</title>
+<meta name="description" content="Портфолио: дашборды, CRM, Telegram-боты и интеграции. Финансист, который сам делает инструменты — 15 рабочих проектов с живыми демо.">
+<meta property="og:title" content="Шуляк Екатерина · Автоматизация и финансовая аналитика">
+<meta property="og:description" content="15 рабочих проектов: дашборды, CRM, Telegram-боты, интеграции. Живые демо внутри.">
+<meta property="og:type" content="website">
 <style>
   :root{
     --bg:#0b1120; --panel:#0f172a; --card:#ffffff; --ink:#0f172a; --mut:#64748b;
@@ -120,6 +124,12 @@
     font-size:16px; font-weight:700; cursor:pointer; transition:.18s; box-shadow:0 14px 40px -10px rgba(99,102,241,.7)}
   #cover .enter:hover{background:#4f46e5; transform:translateY(-2px)}
   #cover .line{width:54px; height:3px; border-radius:2px; background:linear-gradient(90deg,#6366f1,#0ea5e9); margin:26px 0 0}
+  #cover .contacts{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:22px}
+  #cover .contacts a{display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); color:#e2e8f0;
+    border-radius:11px; padding:11px 18px; font-size:14px; font-weight:600; transition:.18s}
+  #cover .contacts a:hover{background:rgba(255,255,255,.16); border-color:rgba(199,210,254,.5); transform:translateY(-2px)}
+  #cover .contacts svg{width:17px; height:17px; fill:currentColor}
   .titlebtn{position:fixed; top:14px; left:14px; z-index:40; background:rgba(255,255,255,.12); color:#e2e8f0;
     border:1px solid rgba(255,255,255,.18); border-radius:9px; padding:7px 12px; font-size:12px; font-weight:600;
     cursor:pointer; backdrop-filter:blur(6px); display:none}
@@ -129,11 +139,18 @@
 <body>
 
 <section id="cover">
-  <div class="ce">Портфолио · Обучение вайбкодингу</div>
+  <div class="ce">Портфолио · Автоматизация и финансовая аналитика</div>
   <h1>Шуляк Екатерина</h1>
-  <div class="role">Выпускная презентация работ</div>
-  <p class="sub">15 проектов, созданных за время обучения: веб-приложения, Telegram-боты, интеграции и сайты.</p>
-  <div class="date">Июнь 2026</div>
+  <div class="role">Финансист, который сам делает инструменты</div>
+  <p class="sub">15 рабочих проектов: дашборды, CRM, Telegram-боты и интеграции. Понимаю 1С, P&amp;L и управленческий учёт — и строю под них софт, который убирает ручную работу и Excel.</p>
+  <div class="contacts">
+    <a href="https://t.me/Ka_terina8" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      Написать в Telegram</a>
+    <a href="mailto:me@shuljak.ru">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24l-8 4.99-8-4.99V6l8 4.99L20 6v2.24z"/></svg>
+      me@shuljak.ru</a>
+  </div>
   <button class="enter" onclick="enterPortfolio()">Смотреть работы →</button>
   <div class="line"></div>
 </section>
@@ -141,9 +158,9 @@
 <button class="titlebtn" id="titlebtn" onclick="showCover()">↑ К титульному</button>
 
 <header class="hero">
-  <div class="eyebrow">Портфолио · Обучение вайбкодингу</div>
+  <div class="eyebrow">Портфолио · Автоматизация и финансовая аналитика</div>
   <h1>Мои работы</h1>
-  <p>Интерактивная витрина проектов, созданных за время обучения. Нажмите на любую карточку — откроется живое демо и краткий разбор: проблема, что сделано, результат.</p>
+  <p>Живые проекты, а не скриншоты. Нажмите на любую карточку — откроется работающее демо и краткий разбор: задача, что сделано, результат.</p>
   <div class="stats">
     <div><b>15</b><span>проектов</span></div>
     <div><b>7</b><span>веб-приложений</span></div>
@@ -171,7 +188,9 @@
 
 <div class="lightbox" id="lightbox" onclick="this.classList.remove('show')"><img id="lbimg" src="" alt=""></div>
 
-<footer>Презентация собрана из рабочих файлов · открывается двойным кликом, без интернета (кроме веб-шрифтов в прототипах)</footer>
+<footer>Шуляк Екатерина · автоматизация бизнес-процессов и финансовая аналитика<br>
+<a href="https://t.me/Ka_terina8" target="_blank" rel="noopener" style="color:#818cf8;font-weight:600;text-decoration:none">Telegram</a> ·
+<a href="mailto:me@shuljak.ru" style="color:#818cf8;font-weight:600;text-decoration:none">me@shuljak.ru</a></footer>
 
 <script>
 const W = [
