@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Каталог тренировок — демо</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0b1a; --card:#1a1530;
+    --txt:#f4f1ff; --muted:#a99fce; --line:rgba(255,255,255,.08);
+    --grad:linear-gradient(135deg,#8b5cf6 0%,#ec4899 55%,#f97316 100%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:var(--bg);color:var(--txt);font-family:'Manrope',sans-serif;
+    max-width:440px;margin:0 auto;min-height:100vh;padding-bottom:88px;overflow-x:hidden}
+
+  .hero{position:relative;padding:26px 20px 22px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:var(--grad);opacity:.22;filter:blur(4px)}
+  .hero-blob{position:absolute;width:220px;height:220px;border-radius:50%;
+    background:var(--grad);filter:blur(60px);opacity:.5;top:-90px;right:-60px}
+  .hi{position:relative;font-size:14px;color:var(--muted);font-weight:500;
+    display:flex;align-items:center;gap:8px}
+  .demo-badge{background:rgba(255,255,255,.14);border:1px solid var(--line);
+    color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.5px}
+  .h1{position:relative;font-family:'Unbounded',sans-serif;font-weight:800;
+    font-size:30px;line-height:1.05;margin-top:4px;letter-spacing:-.5px}
+  .h1 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stats{position:relative;display:flex;gap:10px;margin-top:18px}
+  .stat{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--line);
+    border-radius:16px;padding:12px 14px;backdrop-filter:blur(6px)}
+  .stat b{font-size:22px;font-weight:800;font-family:'Unbounded',sans-serif}
+  .stat small{display:block;color:var(--muted);font-size:12px;margin-top:2px;font-weight:500}
+
+  .search{margin:4px 20px 0;display:flex;align-items:center;gap:10px;
+    background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 15px}
+  .search input{background:none;border:none;color:var(--txt);font-size:15px;width:100%;font-family:inherit;outline:none}
+  .search input::placeholder{color:var(--muted)}
+
+  .chips{display:flex;gap:9px;overflow-x:auto;padding:18px 20px 6px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{white-space:nowrap;border:1px solid var(--line);background:var(--card);
+    color:var(--muted);padding:9px 16px;border-radius:999px;font-size:14px;font-weight:600;
+    cursor:pointer;transition:.2s;display:flex;gap:7px;align-items:center}
+  .chip .cnt{background:rgba(255,255,255,.08);border-radius:999px;padding:1px 8px;font-size:12px}
+  .chip.active{background:var(--grad);color:#fff;border-color:transparent}
+  .chip.active .cnt{background:rgba(0,0,0,.2)}
+
+  .sec{padding:6px 20px 0;display:flex;justify-content:space-between;align-items:baseline}
+  .sec h2{font-size:18px;font-weight:700;font-family:'Unbounded',sans-serif}
+  .sec a{color:var(--muted);font-size:13px;font-weight:600;text-decoration:none}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:14px 20px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:20px;
+    overflow:hidden;cursor:pointer;transition:transform .15s}
+  .card:active{transform:scale(.97)}
+  .thumb{position:relative;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center}
+  .play{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.9);
+    display:flex;align-items:center;justify-content:center}
+  .play svg{width:18px;height:18px;fill:#0e0b1a;margin-left:3px}
+  .dur{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.55);
+    backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:600;padding:3px 8px;border-radius:8px}
+  .tag{position:absolute;top:8px;left:8px;font-size:11px;font-weight:700;
+    padding:3px 9px;border-radius:8px;color:#fff}
+  .meta{padding:11px 12px 13px}
+  .meta h3{font-size:14px;font-weight:700;line-height:1.25}
+  .meta p{font-size:12px;color:var(--muted);margin-top:4px;font-weight:500}
+  .heart{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;
+    background:rgba(0,0,0,.3);backdrop-filter:blur(4px);border:none;display:flex;
+    align-items:center;justify-content:center;cursor:pointer;z-index:2}
+  .heart svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2}
+  .heart.on svg{fill:#ec4899;stroke:#ec4899}
+  .done-badge{position:absolute;bottom:8px;left:8px;background:rgba(16,185,129,.92);
+    color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;
+    display:flex;align-items:center;gap:3px}
+  .done-badge svg{width:11px;height:11px;fill:none;stroke:#fff;stroke-width:3}
+
+  .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;
+    background:rgba(20,16,40,.85);backdrop-filter:blur(14px);border-top:1px solid var(--line);
+    display:flex;justify-content:space-around;padding:12px 0 18px}
+  .nav div{display:flex;flex-direction:column;align-items:center;gap:4px;
+    color:var(--muted);font-size:11px;font-weight:600;cursor:pointer}
+  .nav div.on{color:#fff}
+  .nav svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2}
+  .fab{position:absolute;top:-24px;left:50%;transform:translateX(-50%);
+    width:56px;height:56px;border-radius:50%;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(236,72,153,.45)}
+  .fab svg{width:26px;height:26px;stroke:#fff;stroke-width:2.5;fill:none}
+  .empty{color:var(--muted);text-align:center;padding:40px 20px;font-weight:500;grid-column:1/-1}
+
+  .modal{position:fixed;inset:0;background:rgba(6,4,14,.94);backdrop-filter:blur(8px);
+    display:none;align-items:center;justify-content:center;flex-direction:column;z-index:50;padding:20px}
+  .modal.open{display:flex}
+  .mtitle{margin-top:16px;font-weight:700;font-size:17px;text-align:center}
+  .mcat{color:var(--muted);font-size:13px;margin-top:4px;font-weight:600}
+  .mclose{position:absolute;top:18px;right:18px;width:40px;height:40px;border-radius:50%;
+    background:rgba(255,255,255,.12);border:none;color:#fff;font-size:20px;cursor:pointer}
+  .mdone{margin-top:14px;background:rgba(255,255,255,.1);color:#fff;border:1px solid var(--line);
+    padding:12px 24px;border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
+  .mdone.is-done{background:linear-gradient(135deg,#34d399,#10b981);border-color:transparent}
+  .fakeplayer{width:100%;max-width:300px;aspect-ratio:9/16;border-radius:20px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    position:relative;overflow:hidden;max-height:56vh}
+  .fakeplayer::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);
+    animation:sheen 2.4s infinite}
+  @keyframes sheen{0%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+  .fakeplayer .pulse{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);
+    display:flex;align-items:center;justify-content:center;animation:pulse 1.8s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .fakeplayer .pulse svg{width:24px;height:24px;fill:#0e0b1a;margin-left:4px}
+  .fakeplayer .note{position:relative;z-index:1;color:#fff;font-size:12px;font-weight:600;
+    text-align:center;padding:0 22px;line-height:1.5;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+
+  .prog{padding:8px 20px 0}
+  .prog-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+  .pm{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+  .pm b{font-family:'Unbounded',sans-serif;font-size:26px;font-weight:800;display:block}
+  .pm small{color:var(--muted);font-size:13px;font-weight:600}
+  .pm.accent{background:var(--grad);border-color:transparent}
+  .prog-h{font-size:15px;font-weight:700;margin:18px 4px 4px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-blob"></div>
+    <div class="hi">Привет, Катерина 👋 <span class="demo-badge">ДЕМО</span></div>
+    <div class="h1">Твои<br><span>тренировки</span></div>
+    <div class="stats">
+      <div class="stat"><b id="s-total">—</b><small>тренировок</small></div>
+      <div class="stat"><b id="s-cats">—</b><small>разделов</small></div>
+      <div class="stat"><b id="s-hours">—</b><small>всего видео</small></div>
+    </div>
+  </div>
+
+  <div class="search" id="search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a99fce" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input placeholder="Найти тренировку…" oninput="render(this.value)">
+  </div>
+
+  <div class="chips" id="chips"></div>
+
+  <div class="sec" id="sec"><h2 id="sec-title">Все тренировки</h2><a href="#">по дате ↓</a></div>
+  <div class="grid" id="grid"></div>
+  <div class="prog" id="prog" style="display:none"></div>
+
+  <div class="modal" id="modal">
+    <button class="mclose" onclick="closePlayer()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+
+  <div class="nav">
+    <div id="nav-catalog" class="on" onclick="setView('catalog')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>Каталог</div>
+    <div id="nav-favs" onclick="setView('favs')"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg>Избранное</div>
+    <div class="fab" onclick="howToAdd()"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+    <div id="nav-progress" onclick="setView('progress')"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>Прогресс</div>
+    <div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Профиль</div>
+  </div>
+
+<script>
+const GRAD = {
+  'Руки':   'linear-gradient(135deg,#f472b6,#8b5cf6)',
+  'Ноги':   'linear-gradient(135deg,#22d3ee,#3b82f6)',
+  'Пресс':  'linear-gradient(135deg,#f97316,#ef4444)',
+  'Спина':  'linear-gradient(135deg,#34d399,#10b981)',
+  'Ягодицы':'linear-gradient(135deg,#a78bfa,#ec4899)',
+};
+const ORDER = ['Руки','Ноги','Пресс','Спина','Ягодицы'];
+
+const RAW = [
+  ['Руки','Бицепс с гантелями',185],['Руки','Трицепс на брусьях',142],
+  ['Руки','Плечи: махи в стороны',96],['Руки','Отжимания узким хватом',210],
+  ['Ноги','Приседания классические',240],['Ноги','Выпады вперёд',168],
+  ['Ноги','Икры: подъёмы стоя',85],['Ноги','Румынская тяга',198],
+  ['Пресс','Планка 3 подхода',180],['Пресс','Скручивания на нижний пресс',134],
+  ['Пресс','Табата на кор',240],['Пресс','Велосипед лёжа',120],
+  ['Пресс','Косые мышцы: боковая планка',150],['Пресс','Вакуум живота',90],
+  ['Пресс','Подъём ног в висе',110],['Пресс','Экспресс-пресс 5 минут',300],
+  ['Пресс','Растяжка после пресса',161],
+  ['Спина','Осанка: упражнения у стены',175],['Спина','Тяга гантели в наклоне',205],
+  ['Ягодицы','Ягодичный мостик',162],['Ягодицы','Махи ногой назад',128],
+  ['Ягодицы','Приседания плие',190],['Ягодицы','Отведение ноги в сторону',115],
+  ['Ягодицы','Болгарские выпады',225],['Ягодицы','Ходьба в полуприсяде',140],
+  ['Ягодицы','Пульсирующие приседы',155],['Ягодицы','Ягодицы: комплекс 10 мин',600],
+  ['Ягодицы','Резинка: отведения',175],['Ягодицы','Мостик на одной ноге',132],
+  ['Ягодицы','Заминка и растяжка',95],['Ягодицы','Финишер на ягодицы',180],
+];
+const DATA = RAW.map((r,i)=>({
+  id:i+1, category:r[0], title:r[1], duration_sec:r[2],
+  duration:`${Math.floor(r[2]/60)}:${String(r[2]%60).padStart(2,'0')}`,
+  date:`2026-07-${String(2+(i%13)).padStart(2,'0')}`,
+  gradient:GRAD[r[0]],
+}));
+
+let active='Все', query='', view='catalog';
+const LS={
+  favs(){try{return JSON.parse(localStorage.demo_favs||'[]')}catch(e){return[]}},
+  setFavs(a){localStorage.demo_favs=JSON.stringify(a)},
+  isFav(id){return this.favs().includes(id)},
+  toggleFav(id){let a=this.favs();a=a.includes(id)?a.filter(x=>x!==id):[...a,id];this.setFavs(a)},
+  done(){try{return JSON.parse(localStorage.demo_done||'[]')}catch(e){return[]}},
+  setDone(a){localStorage.demo_done=JSON.stringify(a)},
+  today(){return new Date().toISOString().slice(0,10)},
+  isDoneToday(id){return this.done().some(x=>x.id===id&&x.date===this.today())},
+  doneCount(id){return this.done().filter(x=>x.id===id).length},
+  markDone(id){if(!this.isDoneToday(id))this.setDone([...this.done(),{id,date:this.today()}])},
+};
+
+function init(){
+  document.getElementById('s-total').textContent=DATA.length;
+  document.getElementById('s-cats').textContent=new Set(DATA.map(d=>d.category)).size;
+  const secs=DATA.reduce((a,d)=>a+d.duration_sec,0);
+  document.getElementById('s-hours').textContent=(secs/3600).toFixed(1).replace('.',',')+'ч';
+  chips();render();
+}
+function cats(){return ['Все',...ORDER.filter(c=>DATA.some(d=>d.category===c))]}
+function chips(){
+  document.getElementById('chips').innerHTML=cats().map(c=>{
+    const n=c==='Все'?DATA.length:DATA.filter(d=>d.category===c).length;
+    return `<div class="chip ${c===active?'active':''}" onclick="pick('${c}')">${c}<span class="cnt">${n}</span></div>`;
+  }).join('');
+}
+function pick(c){active=c;document.getElementById('sec-title').textContent=c==='Все'?'Все тренировки':c;chips();render();}
+function cardHTML(d){
+  const fav=LS.isFav(d.id), done=LS.doneCount(d.id)>0;
+  return `<div class="card" onclick="open_(${d.id})">
+    <div class="thumb" style="background:${d.gradient}">
+      <span class="tag" style="background:rgba(0,0,0,.28)">${d.category}</span>
+      ${done?`<span class="done-badge"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>сделано</span>`:''}
+      <button class="heart ${fav?'on':''}" onclick="event.stopPropagation();fav_(${d.id})" aria-label="В избранное">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 6a5 5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z"/></svg></button>
+      <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <span class="dur">${d.duration}</span>
+    </div>
+    <div class="meta"><h3>${d.title}</h3><p>${d.category} · ${d.date.slice(8,10)}.${d.date.slice(5,7)}</p></div>
+  </div>`;
+}
+function render(q){
+  if(q!==undefined)query=q;
+  const grid=document.getElementById('grid');
+  let list=DATA.filter(d=>active==='Все'||d.category===active);
+  if(view==='favs')list=DATA.filter(d=>LS.isFav(d.id));
+  if(query)list=list.filter(d=>d.title.toLowerCase().includes(query.toLowerCase()));
+  grid.innerHTML=list.length?list.map(cardHTML).join('')
+    :`<div class="empty">${view==='favs'?'Добавь тренировки в избранное сердечком ♥':'Здесь пока пусто'}</div>`;
+}
+function fav_(id){LS.toggleFav(id);render();}
+function setView(v){
+  view=v;
+  document.getElementById('nav-catalog').classList.toggle('on',v==='catalog');
+  document.getElementById('nav-favs').classList.toggle('on',v==='favs');
+  document.getElementById('nav-progress').classList.toggle('on',v==='progress');
+  const show=(id,on)=>document.getElementById(id).style.display=on?'':'none';
+  show('search',v!=='progress');show('chips',v==='catalog');show('sec',v!=='progress');
+  show('grid',v!=='progress');show('prog',v==='progress');
+  if(v==='catalog')document.getElementById('sec-title').textContent=active==='Все'?'Все тренировки':active;
+  if(v==='favs')document.getElementById('sec-title').textContent='Избранное';
+  if(v==='progress')renderProgress(); else render();
+  window.scrollTo(0,0);
+}
+function renderProgress(){
+  const done=LS.done(), total=done.length;
+  const wk=done.filter(x=>(Date.now()-new Date(x.date))/864e5<7).length;
+  const days=new Set(done.map(x=>x.date)).size;
+  const last=[...done].reverse().slice(0,8).map(x=>{
+    const d=DATA.find(w=>w.id===x.id);
+    return d?`<div class="pm" style="grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding:12px 16px">
+      <span>${d.title} · ${d.category}</span><small>${x.date.slice(8,10)}.${x.date.slice(5,7)}</small></div>`:'';
+  }).join('');
+  document.getElementById('prog').innerHTML=`
+    <div class="prog-cards">
+      <div class="pm accent"><b>${total}</b><small>всего выполнено</small></div>
+      <div class="pm"><b>${wk}</b><small>за 7 дней</small></div>
+      <div class="pm"><b>${days}</b><small>дней с тренировкой</small></div>
+      <div class="pm"><b>${LS.favs().length}</b><small>в избранном</small></div>
+    </div>
+    ${total?`<div class="prog-h">Последние</div><div class="prog-cards">${last}</div>`
+      :'<div class="empty">Пройди тренировку и нажми «Сделано» — здесь появится прогресс</div>'}`;
+}
+function open_(id){
+  const d=DATA.find(x=>x.id===id);if(!d)return;
+  document.getElementById('modal-body').innerHTML=`
+    <div class="fakeplayer" style="background:${d.gradient}">
+      <div class="pulse"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="note">Демо-версия<br>В рабочем приложении здесь<br>проигрывается видео из Telegram</div>
+    </div>
+    <div class="mtitle">${d.title}</div>
+    <div class="mcat">${d.category} · ${d.duration}</div>
+    <button class="mdone ${LS.isDoneToday(id)?'is-done':''}" id="done-btn" onclick="markDone_(${id})">
+      ${LS.isDoneToday(id)?'✓ Сделано сегодня':'Отметить сделанным'}</button>`;
+  document.getElementById('modal').classList.add('open');
+}
+function markDone_(id){
+  LS.markDone(id);
+  const b=document.getElementById('done-btn');
+  if(b){b.classList.add('is-done');b.textContent='✓ Сделано сегодня';}
+}
+function closePlayer(){
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('modal-body').innerHTML='';
+  view==='progress'?renderProgress():render();
+}
+function howToAdd(){
+  document.getElementById('modal-body').innerHTML=`
+    <div class="mtitle">Как добавляются тренировки</div>
+    <div class="mcat" style="line-height:1.7;margin-top:12px;text-align:center;max-width:320px">
+      Вы отправляете видео или ссылку в Telegram-группу — бот сам скачивает ролик,
+      определяет раздел (руки / ноги / пресс / спина / ягодицы) и добавляет его сюда.
+      Если раздел неочевиден — бот спросит кнопками.
+    </div>`;
+  document.getElementById('modal').classList.add('open');
+}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closePlayer();});
+init();
+</script>
+</body>
+</html>
